@@ -12,7 +12,7 @@ namespace SistemaEnlace.Shared.Entities
     {
 
 
-        private int id { get; set; }
+        public int id { get; set; }
 
 
 
@@ -20,33 +20,33 @@ namespace SistemaEnlace.Shared.Entities
         [Display(Name = "Nombre")]
         [MaxLength(20, ErrorMessage = "No se permiten más de 20 dígitos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        private string Nombre { get; set; }
+        public string Nombre { get; set; }
 
 
         [Display(Name = "Apellido")]
         [MaxLength(20, ErrorMessage = "No se permiten más de 20 dígitos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        private string Apellidos { get; set; }
+        public string Apellidos { get; set; }
 
         [Display(Name = "Edad")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        private int Edad { get; set; }
+        public int Edad { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}",
         ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        private DateTime FechaNacimiento { get; set; }
+        public DateTime FechaNacimiento { get; set; }
 
         [Display(Name = "Ubicacion")]
         [MaxLength(20, ErrorMessage = "No se permiten más de 20 dígitos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        private string Ubicacion { get; set; }
+        public string Ubicacion { get; set; }
 
         [Display(Name = "Correo")]
         [MaxLength(20, ErrorMessage = "No se permiten más de 20 dígitos")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        private string correo { get; set; }
+        public string correo { get; set; }
 
 
         [JsonIgnore]

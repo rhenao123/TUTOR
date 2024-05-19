@@ -13,7 +13,7 @@ namespace SistemaEnlace.Shared.Entities
 
         [Display(Name = "Situacion")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        private string Situacion { get; set; }
+        public string Situacion { get; set; }
 
 
 

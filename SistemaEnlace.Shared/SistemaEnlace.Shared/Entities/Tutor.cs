@@ -12,7 +12,7 @@ namespace SistemaEnlace.Shared.Entities
 
         [Display(Name = "Experiencia")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        private int Experiencia { get; set; }
+        public int Experiencia { get; set; }
 
     }
 }

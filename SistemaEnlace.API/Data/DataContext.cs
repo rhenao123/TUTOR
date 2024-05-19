@@ -5,14 +5,11 @@ using System.Diagnostics.Eventing.Reader;
 
 namespace SistemaEnlace.API.Data
 {
-
-    public class DataContext : DbContext
+ public class DataContext : DbContext
     {
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-
-
 
         }
 
@@ -31,11 +28,6 @@ namespace SistemaEnlace.API.Data
         public DbSet<Supervisor> supervisors { get; set; }
 
         public DbSet<Tutor> tutors { get; set; }
-
-
-
-
-
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
