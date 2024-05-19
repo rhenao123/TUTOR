@@ -18,7 +18,6 @@ namespace SistemaEnlace.Shared.Entities
 
 
         [JsonIgnore]
-
         public Supervisor supervisor { get; set; }
 
         [JsonIgnore]

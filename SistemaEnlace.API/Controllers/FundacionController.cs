@@ -1,25 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SistemaEnlace.API.Data;
-
 using Microsoft.EntityFrameworkCore;
+using SistemaEnlace.API.Data;
 using SistemaEnlace.Shared.Entities;
-
-
 
 namespace SistemaEnlace.API.Controllers
 {
-    [ApiController]
-    [Route("/api/Actividades")]
-    public class ActividadController : ControllerBase
+  
 
-    {
+        [ApiController]
+        [Route("/api/Fundacion")]
+        public class FundacionController : ControllerBase
+
+        {
 
 
-      
-      
+
+
             private readonly DataContext _context;
 
-            public ActividadController(DataContext context)
+            public FundacionController(DataContext context)
             {
                 _context = context;
             }
@@ -28,21 +27,21 @@ namespace SistemaEnlace.API.Controllers
             [HttpGet]
             public async Task<ActionResult> Get()
             {
-                return Ok(await _context.actividads.ToListAsync());
+            return Ok(await _context.fundacions.ToListAsync());
 
 
-            }
+        }
 
-            // Método Get- por Id
-            [HttpGet("{id:int}")]
+        // Método Get- por Id
+        [HttpGet("{id:int}")]
             public async Task<ActionResult> Get(int id)
             {
 
 
 
-                var actividad = await _context.actividads.FirstOrDefaultAsync(x => x.id == id);
+                var fundacion = await _context.fundacions.FirstOrDefaultAsync(x => x.Id == id);
 
-                if (actividad == null)
+                if (fundacion == null)
                 {
 
 
@@ -52,7 +51,7 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-                return Ok(actividad);
+                return Ok(fundacion);
 
 
             }
@@ -62,12 +61,12 @@ namespace SistemaEnlace.API.Controllers
 
 
             [HttpPost]
-            public async Task<ActionResult> Post(Actividad actividad)
+            public async Task<ActionResult> Post(Fundacion fundacion)
             {
 
-                _context.Add(actividad);
+                _context.Add(fundacion);
                 await _context.SaveChangesAsync();
-                return Ok(actividad);
+                return Ok(fundacion);
 
 
 
@@ -77,12 +76,12 @@ namespace SistemaEnlace.API.Controllers
 
             // Método actualizar
             [HttpPut]
-            public async Task<ActionResult> Put(Actividad actividad)
+            public async Task<ActionResult> Put(Fundacion fundacion)
             {
 
-                _context.Update(actividad);
+                _context.Update(fundacion);
                 await _context.SaveChangesAsync();
-                return Ok(actividad);
+                return Ok(fundacion);
 
 
 
@@ -96,9 +95,9 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-                var Filasafectadas = await _context.actividads
+                var Filasafectadas = await _context.fundacions
 
-                    .Where(x => x.id == id)
+                    .Where(x => x.Id == id)
                     .ExecuteDeleteAsync();
 
                 if (Filasafectadas == 0)
@@ -115,5 +114,4 @@ namespace SistemaEnlace.API.Controllers
             }
         }
     }
-
 

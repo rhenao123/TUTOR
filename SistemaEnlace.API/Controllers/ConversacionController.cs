@@ -1,25 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SistemaEnlace.API.Data;
-
 using Microsoft.EntityFrameworkCore;
+using SistemaEnlace.API.Data;
 using SistemaEnlace.Shared.Entities;
-
-
 
 namespace SistemaEnlace.API.Controllers
 {
-    [ApiController]
-    [Route("/api/Actividades")]
-    public class ActividadController : ControllerBase
+   
+        [ApiController]
+        [Route("/api/Conversaciones")]
+        public class ConversacionController : ControllerBase
 
-    {
+        {
 
 
-      
-      
+
+
             private readonly DataContext _context;
 
-            public ActividadController(DataContext context)
+            public ConversacionController(DataContext context)
             {
                 _context = context;
             }
@@ -28,21 +26,22 @@ namespace SistemaEnlace.API.Controllers
             [HttpGet]
             public async Task<ActionResult> Get()
             {
-                return Ok(await _context.actividads.ToListAsync());
+            return Ok(await _context.conversacions.ToListAsync());
 
 
-            }
 
-            // Método Get- por Id
-            [HttpGet("{id:int}")]
+        }
+
+        // Método Get- por Id
+        [HttpGet("{id:int}")]
             public async Task<ActionResult> Get(int id)
             {
 
 
 
-                var actividad = await _context.actividads.FirstOrDefaultAsync(x => x.id == id);
+                var conversacion = await _context.conversacions.FirstOrDefaultAsync(x => x.Id == id);
 
-                if (actividad == null)
+                if (conversacion == null)
                 {
 
 
@@ -52,7 +51,7 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-                return Ok(actividad);
+                return Ok(conversacion);
 
 
             }
@@ -62,12 +61,12 @@ namespace SistemaEnlace.API.Controllers
 
 
             [HttpPost]
-            public async Task<ActionResult> Post(Actividad actividad)
+            public async Task<ActionResult> Post(Conversacion conversacion)
             {
 
-                _context.Add(actividad);
+                _context.Add(conversacion);
                 await _context.SaveChangesAsync();
-                return Ok(actividad);
+                return Ok(conversacion);
 
 
 
@@ -77,12 +76,12 @@ namespace SistemaEnlace.API.Controllers
 
             // Método actualizar
             [HttpPut]
-            public async Task<ActionResult> Put(Actividad actividad)
+            public async Task<ActionResult> Put(Conversacion conversacion)
             {
 
-                _context.Update(actividad);
+                _context.Update(conversacion);
                 await _context.SaveChangesAsync();
-                return Ok(actividad);
+                return Ok(conversacion);
 
 
 
@@ -96,9 +95,9 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-                var Filasafectadas = await _context.actividads
+                var Filasafectadas = await _context.conversacions
 
-                    .Where(x => x.id == id)
+                    .Where(x => x.Id     == id)
                     .ExecuteDeleteAsync();
 
                 if (Filasafectadas == 0)
