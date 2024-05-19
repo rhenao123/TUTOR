@@ -16,4 +16,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SistemaEnlace.Shared\SistemaEnlace.Shared\SistemaEnlace.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
