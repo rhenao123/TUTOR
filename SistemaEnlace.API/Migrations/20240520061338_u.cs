@@ -5,7 +5,7 @@
 namespace SistemaEnlace.API.Migrations
 {
     /// <inheritdoc />
-    public partial class asd : Migration
+    public partial class u : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,12 +23,36 @@ namespace SistemaEnlace.API.Migrations
                 table: "formularios");
 
             migrationBuilder.DropColumn(
+                name: "IdSupervisor",
+                table: "formularios");
+
+            migrationBuilder.DropColumn(
                 name: "IdJoven",
                 table: "conversacions");
 
             migrationBuilder.DropColumn(
                 name: "IdTutor",
                 table: "conversacions");
+
+            migrationBuilder.RenameColumn(
+                name: "supervisorsid",
+                table: "formularios",
+                newName: "Supervisorid");
+
+            migrationBuilder.RenameColumn(
+                name: "Idfundacion",
+                table: "formularios",
+                newName: "Fundacionid");
+
+            migrationBuilder.RenameColumn(
+                name: "Idconversacion",
+                table: "formularios",
+                newName: "Conversacionid");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_formularios_supervisorsid",
+                table: "formularios",
+                newName: "IX_formularios_Supervisorid");
 
             migrationBuilder.RenameColumn(
                 name: "tutorsid",
@@ -50,14 +74,6 @@ namespace SistemaEnlace.API.Migrations
                 table: "conversacions",
                 newName: "IX_conversacions_JovenVulnerableid");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "supervisorsid",
-                table: "formularios",
-                type: "int",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int");
-
             migrationBuilder.AlterColumn<string>(
                 name: "Resumen",
                 table: "formularios",
@@ -65,6 +81,16 @@ namespace SistemaEnlace.API.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_formularios_Conversacionid",
+                table: "formularios",
+                column: "Conversacionid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_formularios_Fundacionid",
+                table: "formularios",
+                column: "Fundacionid");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_conversacions_JovenesVulnerables_JovenVulnerableid",
@@ -83,11 +109,28 @@ namespace SistemaEnlace.API.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_formularios_supervisors_supervisorsid",
+                name: "FK_formularios_conversacions_Conversacionid",
                 table: "formularios",
-                column: "supervisorsid",
+                column: "Conversacionid",
+                principalTable: "conversacions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_formularios_fundacions_Fundacionid",
+                table: "formularios",
+                column: "Fundacionid",
+                principalTable: "fundacions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_formularios_supervisors_Supervisorid",
+                table: "formularios",
+                column: "Supervisorid",
                 principalTable: "supervisors",
-                principalColumn: "id");
+                principalColumn: "id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
@@ -102,8 +145,44 @@ namespace SistemaEnlace.API.Migrations
                 table: "conversacions");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_formularios_supervisors_supervisorsid",
+                name: "FK_formularios_conversacions_Conversacionid",
                 table: "formularios");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_formularios_fundacions_Fundacionid",
+                table: "formularios");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_formularios_supervisors_Supervisorid",
+                table: "formularios");
+
+            migrationBuilder.DropIndex(
+                name: "IX_formularios_Conversacionid",
+                table: "formularios");
+
+            migrationBuilder.DropIndex(
+                name: "IX_formularios_Fundacionid",
+                table: "formularios");
+
+            migrationBuilder.RenameColumn(
+                name: "Supervisorid",
+                table: "formularios",
+                newName: "supervisorsid");
+
+            migrationBuilder.RenameColumn(
+                name: "Fundacionid",
+                table: "formularios",
+                newName: "Idfundacion");
+
+            migrationBuilder.RenameColumn(
+                name: "Conversacionid",
+                table: "formularios",
+                newName: "Idconversacion");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_formularios_Supervisorid",
+                table: "formularios",
+                newName: "IX_formularios_supervisorsid");
 
             migrationBuilder.RenameColumn(
                 name: "Tutorid",
@@ -125,16 +204,6 @@ namespace SistemaEnlace.API.Migrations
                 table: "conversacions",
                 newName: "IX_conversacions_jovenVulnerablesid");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "supervisorsid",
-                table: "formularios",
-                type: "int",
-                nullable: false,
-                defaultValue: 0,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldNullable: true);
-
             migrationBuilder.AlterColumn<string>(
                 name: "Resumen",
                 table: "formularios",
@@ -144,6 +213,13 @@ namespace SistemaEnlace.API.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "IdSupervisor",
+                table: "formularios",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "IdJoven",

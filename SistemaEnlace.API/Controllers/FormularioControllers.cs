@@ -62,6 +62,12 @@ namespace SistemaEnlace.API.Controllers
         public async Task<ActionResult> Post(Formulario formularios)
         {
 
+
+            if (formularios.Fundacionid == 0)
+            {
+                formularios.Fundacionid = 1;
+            }
+
             _context.Add(formularios);
             await _context.SaveChangesAsync();
             return Ok(formularios);

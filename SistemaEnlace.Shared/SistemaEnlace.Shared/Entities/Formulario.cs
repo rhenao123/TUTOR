@@ -13,20 +13,27 @@ namespace SistemaEnlace.Shared.Entities
         public int Id { get; set; }
 
         public DateTime Fecha { get; set; }
-
-        public int Idconversacion  { get; set; }
-
+       
         public string Resumen { get; set; }
 
         [JsonIgnore]
-        public Supervisor supervisors { get; set; }
+        public Conversacion conversaciones { get; set; }
 
-        public int IdSupervisor { get; set; }
+        public int Conversacionid { get; set; }
+
+     
+        [JsonIgnore]
+        public Supervisor supervisores { get; set; }
+
+        public int Supervisorid { get; set; }
 
 
+        [JsonIgnore]
+        public Fundacion fundaciones { get; set; }
+        
+        public int Fundacionid { get; set; } = 1;
 
-        public int Idfundacion { get; set; }
-
+      
 
     }
 }

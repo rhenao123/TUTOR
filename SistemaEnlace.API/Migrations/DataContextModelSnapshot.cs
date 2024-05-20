@@ -59,27 +59,28 @@ namespace SistemaEnlace.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Conversacionid")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdSupervisor")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Idconversacion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Idfundacion")
+                    b.Property<int>("Fundacionid")
                         .HasColumnType("int");
 
                     b.Property<string>("Resumen")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("supervisorsid")
+                    b.Property<int>("Supervisorid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("supervisorsid");
+                    b.HasIndex("Conversacionid");
+
+                    b.HasIndex("Fundacionid");
+
+                    b.HasIndex("Supervisorid");
 
                     b.ToTable("formularios");
                 });
@@ -236,11 +237,29 @@ namespace SistemaEnlace.API.Migrations
 
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.Formulario", b =>
                 {
-                    b.HasOne("SistemaEnlace.Shared.Entities.Supervisor", "supervisors")
+                    b.HasOne("SistemaEnlace.Shared.Entities.Conversacion", "conversaciones")
                         .WithMany()
-                        .HasForeignKey("supervisorsid");
+                        .HasForeignKey("Conversacionid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("supervisors");
+                    b.HasOne("SistemaEnlace.Shared.Entities.Fundacion", "fundaciones")
+                        .WithMany()
+                        .HasForeignKey("Fundacionid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SistemaEnlace.Shared.Entities.Supervisor", "supervisores")
+                        .WithMany()
+                        .HasForeignKey("Supervisorid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("conversaciones");
+
+                    b.Navigation("fundaciones");
+
+                    b.Navigation("supervisores");
                 });
 
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.JovenVulnerable", b =>
