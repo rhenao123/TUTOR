@@ -27,7 +27,7 @@ namespace SistemaEnlace.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _context.jovenVulnerables.ToListAsync());
+            return Ok(await _context.JovenesVulnerables.ToListAsync());
 
 
         }
@@ -39,7 +39,7 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-            var jovenVulnerable = await _context.jovenVulnerables.FirstOrDefaultAsync(x => x.id == id);
+            var jovenVulnerable = await _context.JovenesVulnerables.FirstOrDefaultAsync(x => x.id == id);
 
             if (jovenVulnerable == null)
             {
@@ -95,7 +95,7 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-            var Filasafectadas = await _context.jovenVulnerables
+            var Filasafectadas = await _context.JovenesVulnerables
 
                 .Where(x => x.id == id)
                 .ExecuteDeleteAsync();

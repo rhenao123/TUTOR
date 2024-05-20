@@ -6,8 +6,8 @@ using SistemaEnlace.Shared.Entities;
 namespace SistemaEnlace.API.Controllers
 {
     [ApiController]
-    [Route("/api/Realiza")]
-    public class RealizaController : ControllerBase
+    [Route("/api/Formularios")]
+    public class FormularioControllers : ControllerBase
 
     {
 
@@ -16,7 +16,7 @@ namespace SistemaEnlace.API.Controllers
 
         private readonly DataContext _context;
 
-        public RealizaController(DataContext context)
+        public FormularioControllers(DataContext context)
         {
             _context = context;
         }
@@ -25,7 +25,7 @@ namespace SistemaEnlace.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _context.realizas.ToListAsync());
+            return Ok(await _context.formularios.ToListAsync());
 
 
         }
@@ -37,9 +37,9 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-            var realiza = await _context.realizas.FirstOrDefaultAsync(x => x.Id == id);
+            var formularios = await _context.formularios.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (realiza == null)
+            if (formularios == null)
             {
 
 
@@ -49,7 +49,7 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-            return Ok(realiza);
+            return Ok(formularios);
 
 
         }
@@ -59,12 +59,12 @@ namespace SistemaEnlace.API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Post(Realiza realiza)
+        public async Task<ActionResult> Post(Formulario formularios)
         {
 
-            _context.Add(realiza);
+            _context.Add(formularios);
             await _context.SaveChangesAsync();
-            return Ok(realiza);
+            return Ok(formularios);
 
 
 
@@ -74,12 +74,12 @@ namespace SistemaEnlace.API.Controllers
 
         // Método actualizar
         [HttpPut]
-        public async Task<ActionResult> Put(Realiza realiza)
+        public async Task<ActionResult> Put(Formulario formularios)
         {
 
-            _context.Update(realiza);
+            _context.Update(formularios);
             await _context.SaveChangesAsync();
-            return Ok(realiza);
+            return Ok(formularios);
 
 
 
@@ -93,7 +93,7 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-            var Filasafectadas = await _context.realizas
+            var Filasafectadas = await _context.formularios
 
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
@@ -112,5 +112,4 @@ namespace SistemaEnlace.API.Controllers
         }
     }
 }
-
 

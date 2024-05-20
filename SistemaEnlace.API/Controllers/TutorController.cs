@@ -25,7 +25,7 @@ namespace SistemaEnlace.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _context.tutors.ToListAsync());
+            return Ok(await _context.Tutores.ToListAsync());
 
 
         }
@@ -37,7 +37,7 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-            var tutor = await _context.tutors.FirstOrDefaultAsync(x => x.id == id);
+            var tutor = await _context.Tutores.FirstOrDefaultAsync(x => x.id == id);
 
             if (tutor == null)
             {
@@ -93,7 +93,7 @@ namespace SistemaEnlace.API.Controllers
 
 
 
-            var Filasafectadas = await _context.tutors
+            var Filasafectadas = await _context.Tutores
 
                 .Where(x => x.id == id)
                 .ExecuteDeleteAsync();

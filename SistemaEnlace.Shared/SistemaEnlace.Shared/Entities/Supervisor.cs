@@ -22,10 +22,9 @@ namespace SistemaEnlace.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Telefono { get; set; }
 
-        [JsonIgnore]
-        public  ICollection<Supervisa> Supervisar { get; set; }
 
 
+        
     }
 
 }

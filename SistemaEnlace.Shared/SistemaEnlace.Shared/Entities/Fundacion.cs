@@ -24,12 +24,7 @@ namespace SistemaEnlace.Shared.Entities
         public string Description { get; set; }
 
 
-        [JsonIgnore]
-
-        public Persona Persona { get; set; }
-
-        public int IdPersona { get; set; }  
-
+        
 
 
     }

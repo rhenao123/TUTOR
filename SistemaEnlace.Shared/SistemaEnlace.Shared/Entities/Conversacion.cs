@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SistemaEnlace.Shared.Entities
@@ -17,10 +19,21 @@ namespace SistemaEnlace.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public DateTime Fecha { get; set; }
 
-        [Display(Name = "participantes")]
-        [MaxLength(20, ErrorMessage = "No se permiten más de 20 dígitos")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string participantes { get; set; }
+        [ForeignKey("JovenVulnerable")]
+        public int IdJoven { get; set; }
+
+        [ForeignKey("Tutor")]
+
+        public int IdTutor { get; set; }
+
+        
+        
+        [JsonIgnore]
+        public JovenVulnerable jovenVulnerables { get; set; }
+
+
+        [JsonIgnore]
+        public Tutor tutors { get; set; }
 
     }
 
