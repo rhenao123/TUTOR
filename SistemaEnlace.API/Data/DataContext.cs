@@ -20,7 +20,7 @@ namespace SistemaEnlace.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Conversacion>().HasIndex(c => c.Id).IsUnique();
+            modelBuilder.Entity<Conversacion>().HasIndex(c=>c.Id).IsUnique();
 
         }
     }

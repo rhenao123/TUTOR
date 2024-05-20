@@ -12,7 +12,7 @@ namespace SistemaEnlace.Shared.Entities
     public class JovenVulnerable
     {
 
-        [Key]
+        
         public int id { get; set; }
 
 
@@ -56,7 +56,7 @@ namespace SistemaEnlace.Shared.Entities
 
         [JsonIgnore]
        public ICollection<Conversacion> conversacions { get; set; }
-
+       
 
     }
 }

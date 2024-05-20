@@ -55,6 +55,11 @@ namespace SistemaEnlace.Shared.Entities
 
 
 
+        [JsonIgnore]
+        public ICollection<Conversacion> conversacions { get; set; }
+
+
+
 
 
     }

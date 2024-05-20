@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System;
 
+using System.Threading.Tasks;
 namespace SistemaEnlace.Shared.Entities
 {
     public class Conversacion
@@ -19,22 +21,25 @@ namespace SistemaEnlace.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public DateTime Fecha { get; set; }
 
-        [ForeignKey("JovenVulnerable")]
-        public int IdJoven { get; set; }
 
-        [ForeignKey("Tutor")]
+      //  [ForeignKey("JovenVulnerable")]
+        public int JovenVulnerableid { get; set; }
 
-        public int IdTutor { get; set; }
+       // [ForeignKey("Tutor")]
 
-        
-        
-        [JsonIgnore]
-        public JovenVulnerable jovenVulnerables { get; set; }
+        public int Tutorid { get; set; }
 
 
         [JsonIgnore]
-        public Tutor tutors { get; set; }
+        public JovenVulnerable JovenesVulnerables { get; set; }
 
+       
+
+        [JsonIgnore]
+        public Tutor Tutores { get; set; }
+
+
+     
     }
 
 }
