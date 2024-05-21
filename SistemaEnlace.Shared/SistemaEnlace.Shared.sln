@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaEnlace.Shared", "SistemaEnlace.Shared\SistemaEnlace.Shared.csproj", "{65BA97DE-59F3-4C2E-8388-0F376CD979BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaEnlace.Shared", "SistemaEnlace.Shared\SistemaEnlace.Shared.csproj", "{65BA97DE-59F3-4C2E-8388-0F376CD979BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaEnlace.API", "..\SistemaEnlace.API\SistemaEnlace.API.csproj", "{FB63BC07-7C56-4F24-BEC6-2BA29F10F2EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaEnlace.API", "..\SistemaEnlace.API\SistemaEnlace.API.csproj", "{FB63BC07-7C56-4F24-BEC6-2BA29F10F2EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaEnlace.WEB", "..\SistemaEnlace.WEB\SistemaEnlace.WEB.csproj", "{9E5E2380-66D6-4C9A-B90C-4D0FC85B328D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaEnlace.WEB", "..\SistemaEnlace.WEB\SistemaEnlace.WEB.csproj", "{9E5E2380-66D6-4C9A-B90C-4D0FC85B328D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
