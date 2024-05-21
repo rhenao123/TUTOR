@@ -1,0 +1,167 @@
+﻿@using SistemaEnlace.Shared.Entities
+@using SistemaEnlace.WEB.Shared
+@using SistemaEnlace.WEB.Repositories
+@inject SweetAlertService sweetAlertService
+@inject IRepository repository
+
+
+
+
+<EditForm Model="jovenVulnerables" OnSubmit="OnSubmit">
+
+
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+
+        <label>Cedula:  </label>
+        <div>
+            <InputNumber width="10" @bind-Value="jovenVulnerables.id" />
+            <ValidationMessage For="@(()=>jovenVulnerables.id)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Nombre </label>
+        <div>
+            <InputText width="10" @bind-Value="jovenVulnerables.Nombre" />
+            <ValidationMessage For="@(()=>jovenVulnerables.Nombre)" />
+
+        </div>
+    </div>
+    <div class="mb-3">
+
+        <label>Apellido </label>
+        <div>
+            <InputText width="10" @bind-Value="jovenVulnerables.Apellidos" />
+            <ValidationMessage For="@(()=>jovenVulnerables.Apellidos)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Fecah de nacimiento </label>
+        <div>
+            <InputDate width="10" @bind-Value="jovenVulnerables.FechaNacimiento" />
+            <ValidationMessage For="@(()=>jovenVulnerables.FechaNacimiento)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Ubicacion </label>
+        <div>
+            <InputText width="10" @bind-Value="jovenVulnerables.Ubicacion" />
+            <ValidationMessage For="@(()=>jovenVulnerables.Ubicacion)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Correo </label>
+        <div>
+            <InputText width="10" @bind-Value="jovenVulnerables.correo" />
+            <ValidationMessage For="@(()=>jovenVulnerables.correo)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Situación </label>
+        <div>
+            <InputText width="10" @bind-Value="jovenVulnerables.Situacion" />
+            <ValidationMessage For="@(()=>jovenVulnerables.Situacion)" />
+
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+
+        <label>EDAD </label>
+        <div>
+            <InputNumber width="10" @bind-Value="jovenVulnerables.Edad" />
+            <ValidationMessage For="@(()=>jovenVulnerables.Edad)" />
+
+        </div>
+    </div>
+
+
+
+    <button class="btn btn-primary" type="submit">Guardar</button>
+
+    <button class="btn btn-success" onclick="ReturnAction">Regresar</button>
+
+    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" />Limpiar</button>
+
+
+
+</EditForm>
+
+
+
+@code {
+
+    private EditContext editContext = null!;
+    protected override void OnInitialized()
+    {
+        editContext = new(jovenVulnerables);
+    }
+
+    [EditorRequired]
+
+    [Parameter]
+    public JovenVulnerable jovenVulnerables { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+
+    public EventCallback OnSubmit { get; set; }
+
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback ReturnAction { get; set; }
+
+    public bool FormularioPosteadoConExito { get; set; } = false;
+
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        var formularioFueEditado = editContext.IsModified();
+
+        if (!formularioFueEditado)
+        {
+            return;
+        }
+
+        if (FormularioPosteadoConExito)
+        {
+            return;
+        }
+
+        var resultado = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Deseas abandonar la página y perder los cambios?",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true
+            });
+
+        var confirmado = !string.IsNullOrEmpty(resultado.Value);
+
+        if (confirmado)
+        {
+            return;
+        }
+
+        context.PreventNavigation();
+    }
+}
+
+

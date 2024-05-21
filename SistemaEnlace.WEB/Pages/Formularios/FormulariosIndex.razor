@@ -1,0 +1,130 @@
+﻿@page "/Formularios"
+@using SistemaEnlace.Shared.Entities;
+@using SistemaEnlace.WEB.Repositories
+@using SistemaEnlace.WEB.Shared
+@inject SweetAlertService sweetAlertService
+@inject NavigationManager navigationManager
+@inject IRepository repository
+
+<h1>FORMULARIOS</h1>
+<div class="mb-3">
+    <a class="btn btn-primary" href="/Formularios/create">Nuevo Registro</a>
+</div>
+
+
+<GenericList MyList="formularios">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>FORMULARIO</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in formularios!)
+                {
+                    <tr>
+                        <td>
+                        <th>NOMBRE</th>
+                            @item.Id
+                        </td>
+                        <td>
+                        <th>FECHA</th>
+                            @item.Fecha
+                        </td>
+                        <td>
+                        <th>RESUMEN</th>
+                            @item.Resumen
+                        </td>
+                        <td>
+                            <a href="/Formularios/editar/@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
+                            <button @onclick=@(() => DeleteAsycn(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </Body>
+
+</GenericList>
+
+
+
+
+
+@code {
+
+    public List<Formulario> formularios { get; set; }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+
+
+        await LoadAsync();
+
+
+
+    }
+
+    private async Task LoadAsync()
+    {
+        var responseHttp = await repository.GetAsync<List<Formulario>>("/api/Formularios");
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        formularios = responseHttp.Response;
+    }
+    private async Task DeleteAsycn(Formulario formularios)
+    {
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = $"¿Estas seguro de querer borrar el formulario con: {formularios.Id}?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+            });
+        var confirm = string.IsNullOrEmpty(result.Value);
+        if (confirm)
+
+        {
+            return;
+        }
+
+        var responseHttp = await repository.DeleteAsync<Tutor>($"/api/Formularios/{formularios.Id}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/Formularios");
+            }
+            else
+            {
+                var mensajeError = await responseHttp.GetErrorMessage();
+                await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+            }
+            return;
+        }
+
+        await LoadAsync();
+        var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = true,
+                Timer = 3000
+            });
+        await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
+    }
+
+
+}
+

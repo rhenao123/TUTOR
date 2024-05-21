@@ -1,0 +1,44 @@
+﻿
+@page "/Conversaciones/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertServices
+
+<h3>Asignar Conversacion</h3>
+
+
+
+<ConversacionForm conversaciones="conversaciones" OnSubmit="Create" ReturnAction="Return">
+
+
+
+
+
+</ConversacionForm>
+
+
+
+@code {
+    private Conversacion conversaciones = new();
+   
+    private async Task Create()
+    {
+        var responseHttp = await repository.PostAsync("/api/Conversaciones", conversaciones);
+
+        if (responseHttp.Error)
+        {
+
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertServices.FireAsync("Error","prueba", message);
+            return;
+        }
+        navigationManager.NavigateTo("/Conversaciones");
+
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/Conversaciones");
+    }
+
+}

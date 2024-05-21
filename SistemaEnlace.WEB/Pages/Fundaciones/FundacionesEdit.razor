@@ -1,0 +1,75 @@
+﻿﻿
+
+@page "/Fundaciones/editar/{id:int}"
+@using System.Net
+@inject NavigationManager navigationManager
+@inject IRepository repository
+@inject SweetAlertService sweetAlertService
+
+<h3>Editar</h3>
+
+@if (fundaciones is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <FundacionesForm fundaciones="fundaciones" OnSubmit="Editar" ReturnAction="Return" />
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Fundacion fundaciones;
+
+    
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var responseHttp = await repository.GetAsync<Fundacion>($"/api/Fundacion/{id}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/Fundaciones");
+            }
+            else
+            {
+                var messsage = await responseHttp.GetErrorMessage();
+                await sweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            fundaciones = responseHttp.Response;
+        }
+    }
+
+
+    private async Task Editar()
+    {
+        var responseHttp = await repository.PutAsync("/api/Fundacion", fundaciones);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+
+        Return();
+        var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = true,
+                Timer = 3000
+            });
+        await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Cambios guardados con éxito.");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/Fundaciones");
+    }
+
+}

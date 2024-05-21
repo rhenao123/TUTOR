@@ -1,0 +1,44 @@
+﻿
+@page "/Supervisores/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertServices
+
+<h3>NEW SUPERVISOR</h3>
+
+
+
+<SupervisoresForm supervisores="supervisores" OnSubmit="Create" ReturnAction="Return">
+
+
+
+
+
+</SupervisoresForm>
+
+
+
+@code {
+    private Supervisor supervisores = new();
+   
+    private async Task Create()
+    {
+        var responseHttp = await repository.PostAsync("/api/Supervisor", supervisores);
+
+        if (responseHttp.Error)
+        {
+
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertServices.FireAsync("Error","prueba", message);
+            return;
+        }
+        navigationManager.NavigateTo("/Supervisores");
+
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/Supervisores");
+    }
+
+}

@@ -1,0 +1,75 @@
+﻿﻿
+
+@page "/Formularios/editar/{id:int}"
+@using System.Net
+@inject NavigationManager navigationManager
+@inject IRepository repository
+@inject SweetAlertService sweetAlertService
+
+<h3>Editar</h3>
+
+@if (formularios is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <FormulariosForm formularios="formularios" OnSubmit="Editar" ReturnAction="Return" />
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Formulario formularios;
+
+    
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var responseHttp = await repository.GetAsync<Formulario>($"/api/Formularios/{id}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/Formularios");
+            }
+            else
+            {
+                var messsage = await responseHttp.GetErrorMessage();
+                await sweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            formularios = responseHttp.Response;
+        }
+    }
+
+
+    private async Task Editar()
+    {
+        var responseHttp = await repository.PutAsync("/api/Formularios", formularios);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+
+        Return();
+        var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = true,
+                Timer = 3000
+            });
+        await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Cambios guardados con éxito.");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/Formularios");
+    }
+
+}

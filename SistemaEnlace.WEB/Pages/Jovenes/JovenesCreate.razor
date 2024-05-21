@@ -1,0 +1,46 @@
+﻿
+@page "/Jovenes/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertServices
+
+<h3>NEW JOVEN</h3>
+
+
+
+<JovenesForm jovenVulnerables="jovenVulnerable" OnSubmit="Create" ReturnAction="Return">
+
+
+
+
+
+</JovenesForm>
+
+
+
+@code {
+    private JovenVulnerable jovenVulnerable = new();
+   
+    private async Task Create()
+    {
+        var responseHttp = await repository.PostAsync("/api/JovenVul", jovenVulnerable);
+
+        if (responseHttp.Error)
+        {
+
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertServices.FireAsync("Error","prueba", message);
+            return;
+        }
+        navigationManager.NavigateTo("/Jovenes");
+
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/Jovenes");
+
+    } 
+
+
+}

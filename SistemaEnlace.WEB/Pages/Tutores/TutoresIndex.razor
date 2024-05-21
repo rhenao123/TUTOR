@@ -1,0 +1,130 @@
+﻿@page "/Tutores"
+@using SistemaEnlace.Shared.Entities;
+@using SistemaEnlace.WEB.Repositories
+@using SistemaEnlace.WEB.Shared
+@inject SweetAlertService sweetAlertService
+@inject NavigationManager navigationManager
+@inject IRepository repository
+
+<h1>Jovenes Vulnerables</h1>
+<div class="mb-3">
+    <a class="btn btn-primary" href="/Tutores/create">Nuevo Registro</a>
+</div>
+
+
+<GenericList MyList="tutores">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>TUTORES</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in tutores!)
+                {
+                    <tr>
+                        <td>
+                        <th>ID</th>
+                            @item.id
+                        </td>
+                        <td>
+                        <th>NOMBRE</th>
+                            @item.Nombre
+                        </td>
+                        <td>
+                        <th>APELLIDOS</th>
+                            @item.Apellidos
+                        </td>
+                        <td>
+                            <a href="/Tutores/editar/@item.id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
+                            <button @onclick=@(() => DeleteAsycn(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </Body>
+
+</GenericList>
+
+
+
+
+
+@code {
+
+    public List<Tutor> tutores { get; set; }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+
+
+        await LoadAsync();
+
+
+
+    }
+
+    private async Task LoadAsync()
+    {
+        var responseHttp = await repository.GetAsync<List<Tutor>>("/api/Tutor");
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return;
+        }
+        tutores = responseHttp.Response;
+    }
+    private async Task DeleteAsycn(Tutor tutores)
+    {
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = $"¿Estas seguro de querer borrar el tutor con nombre: {tutores.Nombre}?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+            });
+        var confirm = string.IsNullOrEmpty(result.Value);
+        if (confirm)
+
+        {
+            return;
+        }
+
+        var responseHttp = await repository.DeleteAsync<Tutor>($"/api/Tutor/{tutores.id}");
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/Tutores");
+            }
+            else
+            {
+                var mensajeError = await responseHttp.GetErrorMessage();
+                await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+            }
+            return;
+        }
+
+        await LoadAsync();
+        var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.BottomEnd,
+                ShowConfirmButton = true,
+                Timer = 3000
+            });
+        await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
+    }
+
+
+}
+

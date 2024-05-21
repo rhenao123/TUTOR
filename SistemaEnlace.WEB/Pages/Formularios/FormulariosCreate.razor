@@ -1,0 +1,44 @@
+﻿
+@page "/Formularios/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertServices
+
+<h3>NEW FORMULARIO</h3>
+
+
+
+<FormulariosForm formularios="formularios" OnSubmit="Create" ReturnAction="Return">
+
+
+
+
+
+</FormulariosForm>
+
+
+
+@code {
+    private Formulario formularios = new();
+   
+    private async Task Create()
+    {
+        var responseHttp = await repository.PostAsync("/api/Formularios", formularios);
+
+        if (responseHttp.Error)
+        {
+
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertServices.FireAsync("Error","prueba", message);
+            return;
+        }
+        navigationManager.NavigateTo("/Formularios");
+
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/Formularios");
+    }
+
+}
