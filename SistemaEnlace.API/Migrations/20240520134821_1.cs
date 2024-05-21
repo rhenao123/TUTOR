@@ -78,54 +78,63 @@ namespace SistemaEnlace.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "formularios",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Idconversacion = table.Column<int>(type: "int", nullable: false),
-                    Resumen = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    supervisorsid = table.Column<int>(type: "int", nullable: false),
-                    IdSupervisor = table.Column<int>(type: "int", nullable: false),
-                    Idfundacion = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_formularios", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_formularios_supervisors_supervisorsid",
-                        column: x => x.supervisorsid,
-                        principalTable: "supervisors",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "conversacions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdJoven = table.Column<int>(type: "int", nullable: false),
-                    IdTutor = table.Column<int>(type: "int", nullable: false),
-                    jovenVulnerablesid = table.Column<int>(type: "int", nullable: false),
-                    tutorsid = table.Column<int>(type: "int", nullable: false)
+                    JovenVulnerableid = table.Column<int>(type: "int", nullable: false),
+                    Tutorid = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_conversacions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_conversacions_JovenesVulnerables_jovenVulnerablesid",
-                        column: x => x.jovenVulnerablesid,
+                        name: "FK_conversacions_JovenesVulnerables_JovenVulnerableid",
+                        column: x => x.JovenVulnerableid,
                         principalTable: "JovenesVulnerables",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_conversacions_Tutores_tutorsid",
-                        column: x => x.tutorsid,
+                        name: "FK_conversacions_Tutores_Tutorid",
+                        column: x => x.Tutorid,
                         principalTable: "Tutores",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "formularios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Resumen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Conversacionid = table.Column<int>(type: "int", nullable: false),
+                    Supervisorid = table.Column<int>(type: "int", nullable: false),
+                    Fundacionid = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_formularios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_formularios_conversacions_Conversacionid",
+                        column: x => x.Conversacionid,
+                        principalTable: "conversacions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_formularios_fundacions_Fundacionid",
+                        column: x => x.Fundacionid,
+                        principalTable: "fundacions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_formularios_supervisors_Supervisorid",
+                        column: x => x.Supervisorid,
+                        principalTable: "supervisors",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -137,41 +146,51 @@ namespace SistemaEnlace.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_conversacions_jovenVulnerablesid",
+                name: "IX_conversacions_JovenVulnerableid",
                 table: "conversacions",
-                column: "jovenVulnerablesid");
+                column: "JovenVulnerableid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_conversacions_tutorsid",
+                name: "IX_conversacions_Tutorid",
                 table: "conversacions",
-                column: "tutorsid");
+                column: "Tutorid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_formularios_supervisorsid",
+                name: "IX_formularios_Conversacionid",
                 table: "formularios",
-                column: "supervisorsid");
+                column: "Conversacionid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_formularios_Fundacionid",
+                table: "formularios",
+                column: "Fundacionid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_formularios_Supervisorid",
+                table: "formularios",
+                column: "Supervisorid");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "conversacions");
-
-            migrationBuilder.DropTable(
                 name: "formularios");
 
             migrationBuilder.DropTable(
+                name: "conversacions");
+
+            migrationBuilder.DropTable(
                 name: "fundacions");
+
+            migrationBuilder.DropTable(
+                name: "supervisors");
 
             migrationBuilder.DropTable(
                 name: "JovenesVulnerables");
 
             migrationBuilder.DropTable(
                 name: "Tutores");
-
-            migrationBuilder.DropTable(
-                name: "supervisors");
         }
     }
 }
