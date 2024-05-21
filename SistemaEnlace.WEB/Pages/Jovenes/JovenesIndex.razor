@@ -28,17 +28,38 @@
                  {
                      <tr>
                         <td>
-                        <th>NOMBRE</th>
+                        <th>ID</th>
                             @item.id
                         </td>
                         <td>
-                        <th>ESPECIALIDAD</th>
+                        <th>NOMBRE</th>
                             @item.Nombre
                         </td>
                         <td>
-                        <th>LISTA DE MIEMBROS</th>
+                        <th>APELLIDO</th>
                             @item.Apellidos
                         </td>
+                        <td>
+                        <th>EDAD</th>
+                            @item.Edad
+                        </td>
+                        <td>
+                        <th>FECHA DE NACIMIENTO</th>
+                            @item.FechaNacimiento
+                        </td>
+                        <td>
+                        <th>UBICACION</th>
+                            @item.Ubicacion
+                        </td>
+                        <td>
+                        <th>CORREO</th>
+                            @item.correo
+                        </td>
+                        <td>
+                        <th>SITUACION</th>
+                            @item.Situacion
+                        </td>
+
                            <td>
                             <a href="/Jovenes/editar/@item.id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
                             <button @onclick=@(() => DeleteAsycn(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
