@@ -10,6 +10,7 @@ namespace SistemaEnlace.Shared.Entities
 {
     public class Supervisor
     {
+        [Key]
         public int id {  get; set; }
 
         [Display(Name = "Nombre")]

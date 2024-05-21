@@ -20,6 +20,23 @@ namespace SistemaEnlace.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
+
+            modelBuilder.Entity<JovenVulnerable>()
+                .Property(l => l.id)
+                .ValueGeneratedNever();
+           
+            modelBuilder.Entity<Supervisor>()
+                .Property(a => a.id)
+                .ValueGeneratedNever();
+
+            modelBuilder.Entity<Tutor>()
+              .Property(m => m.id)
+              .ValueGeneratedNever();
+
+            modelBuilder.Entity<Fundacion>()
+                .Property(x => x.Id)
+                .ValueGeneratedNever();
+
             modelBuilder.Entity<Conversacion>().HasIndex(c=>c.Id).IsUnique();
             
             modelBuilder.Entity<Fundacion>()

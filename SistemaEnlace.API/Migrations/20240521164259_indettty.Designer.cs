@@ -12,8 +12,8 @@ using SistemaEnlace.API.Data;
 namespace SistemaEnlace.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240521132350_Relaciones")]
-    partial class Relaciones
+    [Migration("20240521164259_indettty")]
+    partial class indettty
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,10 +91,7 @@ namespace SistemaEnlace.API.Migrations
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.Fundacion", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -114,10 +111,7 @@ namespace SistemaEnlace.API.Migrations
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.JovenVulnerable", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("Apellidos")
                         .IsRequired()
@@ -185,10 +179,7 @@ namespace SistemaEnlace.API.Migrations
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.Tutor", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("Apellidos")
                         .IsRequired()

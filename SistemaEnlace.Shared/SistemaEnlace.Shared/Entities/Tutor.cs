@@ -11,6 +11,7 @@ namespace SistemaEnlace.Shared.Entities
     public class Tutor 
     {
 
+        [Key]
         public int id { get; set; }
 
 

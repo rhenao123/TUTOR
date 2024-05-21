@@ -10,6 +10,7 @@ namespace SistemaEnlace.Shared.Entities
 {
     public class Fundacion
     {
+        [Key]
         public int Id { get; set; }
 
 
