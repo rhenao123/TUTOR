@@ -1,4 +1,4 @@
-﻿@page "/Tutores"
+﻿@page "/Fundaciones"
 @using SistemaEnlace.Shared.Entities;
 @using SistemaEnlace.WEB.Repositories
 @using SistemaEnlace.WEB.Shared
@@ -6,13 +6,13 @@
 @inject NavigationManager navigationManager
 @inject IRepository repository
 
-<h1>Jovenes Vulnerables</h1>
+<h1>FUNDACIONES</h1>
 <div class="mb-3">
-    <a class="btn btn-primary" href="/Tutores/create">Nuevo Registro</a>
+    <a class="btn btn-primary" href="/Fundaciones/create">Nuevo Registro</a>
 </div>
 
 
-<GenericList MyList="tutores">
+<GenericList MyList="fundaciones">
 
     <Body>
         <table class="table table-striped">
@@ -24,23 +24,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in tutores!)
+                @foreach (var item in fundaciones!)
                 {
                     <tr>
                         <td>
                         <th>ID</th>
-                            @item.id
+                            @item.Id
                         </td>
                         <td>
                         <th>NOMBRE</th>
-                            @item.Nombre
+                            @item.Name
                         </td>
                         <td>
-                        <th>APELLIDOS</th>
-                            @item.Apellidos
+                        <th>DESCRIPCION</th>
+                            @item.Description
                         </td>
                         <td>
-                            <a href="/Tutores/editar/@item.id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
+                            <a href="/Fundaciones/editar/@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
                             <button @onclick=@(() => DeleteAsycn(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
                         </td>
                     </tr>
@@ -59,7 +59,7 @@
 
 @code {
 
-    public List<Tutor> tutores { get; set; }
+    public List<Fundacion> fundaciones  { get; set; }
 
 
     protected async override Task OnInitializedAsync()
@@ -74,21 +74,21 @@
 
     private async Task LoadAsync()
     {
-        var responseHttp = await repository.GetAsync<List<Tutor>>("/api/Tutor");
+        var responseHttp = await repository.GetAsync<List<Fundacion>>("/api/Fundacion");
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        tutores = responseHttp.Response;
+        fundaciones = responseHttp.Response;
     }
-    private async Task DeleteAsycn(Tutor tutores)
+    private async Task DeleteAsycn(Fundacion fundaciones)
     {
         var result = await sweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = $"¿Estas seguro de querer borrar el tutor con nombre: {tutores.Nombre}?",
+                Text = $"¿Estas seguro de querer borrar la fundacion con nombre: {fundaciones.Name}?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
             });
@@ -99,12 +99,12 @@
             return;
         }
 
-        var responseHttp = await repository.DeleteAsync<Tutor>($"/api/Tutor/{tutores.id}");
+        var responseHttp = await repository.DeleteAsync<Tutor>($"/api/Fundacion/{fundaciones.Id}");
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                navigationManager.NavigateTo("/Tutores");
+                navigationManager.NavigateTo("/Fundaciones");
             }
             else
             {

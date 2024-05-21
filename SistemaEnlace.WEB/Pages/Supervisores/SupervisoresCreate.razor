@@ -1,29 +1,29 @@
 ﻿
-@page "/Jovenes/create"
+@page "/Supervisores/create"
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertServices
 
-<h3>NEW JOVEN</h3>
+<h3>NEW SUPERVISOR</h3>
 
 
 
-<JovenesForm jovenVulnerables="jovenVulnerable" OnSubmit="Create" ReturnAction="Return">
+<SupervisoresForm supervisores="supervisores" OnSubmit="Create" ReturnAction="Return">
 
 
 
 
 
-</JovenesForm>
+</SupervisoresForm>
 
 
 
 @code {
-    private JovenVulnerable jovenVulnerable = new();
+    private Supervisor supervisores = new();
    
     private async Task Create()
     {
-        var responseHttp = await repository.PostAsync("/api/JovenVul", jovenVulnerable);
+        var responseHttp = await repository.PostAsync("/api/Supervisor", supervisores);
 
         if (responseHttp.Error)
         {
@@ -32,15 +32,13 @@
             await sweetAlertServices.FireAsync("Error","prueba", message);
             return;
         }
-        navigationManager.NavigateTo("/Jovenes");
+        navigationManager.NavigateTo("/Supervisores");
 
     }
 
     private void Return()
     {
-        navigationManager.NavigateTo("/Jovenes");
-
-    } 
-
+        navigationManager.NavigateTo("/Supervisores");
+    }
 
 }

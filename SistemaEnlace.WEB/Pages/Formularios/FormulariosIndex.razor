@@ -1,4 +1,4 @@
-﻿@page "/Tutores"
+﻿@page "/Formularios"
 @using SistemaEnlace.Shared.Entities;
 @using SistemaEnlace.WEB.Repositories
 @using SistemaEnlace.WEB.Shared
@@ -6,41 +6,41 @@
 @inject NavigationManager navigationManager
 @inject IRepository repository
 
-<h1>Jovenes Vulnerables</h1>
+<h1>FORMULARIOS</h1>
 <div class="mb-3">
-    <a class="btn btn-primary" href="/Tutores/create">Nuevo Registro</a>
+    <a class="btn btn-primary" href="/Formularios/create">Nuevo Registro</a>
 </div>
 
 
-<GenericList MyList="tutores">
+<GenericList MyList="formularios">
 
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>TUTORES</th>
+                    <th>FORMULARIO</th>
                     <th></th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in tutores!)
+                @foreach (var item in formularios!)
                 {
                     <tr>
                         <td>
-                        <th>ID</th>
-                            @item.id
-                        </td>
-                        <td>
                         <th>NOMBRE</th>
-                            @item.Nombre
+                            @item.Id
                         </td>
                         <td>
-                        <th>APELLIDOS</th>
-                            @item.Apellidos
+                        <th>FECHA</th>
+                            @item.Fecha
                         </td>
                         <td>
-                            <a href="/Tutores/editar/@item.id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
+                        <th>RESUMEN</th>
+                            @item.Resumen
+                        </td>
+                        <td>
+                            <a href="/Formularios/editar/@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
                             <button @onclick=@(() => DeleteAsycn(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
                         </td>
                     </tr>
@@ -59,7 +59,7 @@
 
 @code {
 
-    public List<Tutor> tutores { get; set; }
+    public List<Formulario> formularios { get; set; }
 
 
     protected async override Task OnInitializedAsync()
@@ -74,21 +74,21 @@
 
     private async Task LoadAsync()
     {
-        var responseHttp = await repository.GetAsync<List<Tutor>>("/api/Tutor");
+        var responseHttp = await repository.GetAsync<List<Formulario>>("/api/Formularios");
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        tutores = responseHttp.Response;
+        formularios = responseHttp.Response;
     }
-    private async Task DeleteAsycn(Tutor tutores)
+    private async Task DeleteAsycn(Formulario formularios)
     {
         var result = await sweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = $"¿Estas seguro de querer borrar el tutor con nombre: {tutores.Nombre}?",
+                Text = $"¿Estas seguro de querer borrar el formulario con: {formularios.Id}?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
             });
@@ -99,12 +99,12 @@
             return;
         }
 
-        var responseHttp = await repository.DeleteAsync<Tutor>($"/api/Tutor/{tutores.id}");
+        var responseHttp = await repository.DeleteAsync<Tutor>($"/api/Formularios/{formularios.Id}");
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                navigationManager.NavigateTo("/Tutores");
+                navigationManager.NavigateTo("/Formularios");
             }
             else
             {

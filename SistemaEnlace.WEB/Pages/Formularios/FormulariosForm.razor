@@ -1,0 +1,138 @@
+﻿@using SistemaEnlace.Shared.Entities
+@using SistemaEnlace.WEB.Shared
+@using SistemaEnlace.WEB.Repositories
+@inject SweetAlertService sweetAlertService
+@inject IRepository repository
+
+
+
+
+<EditForm Model="formularios" OnSubmit="OnSubmit">
+
+
+    <DataAnnotationsValidator />
+
+
+
+    <div class="mb-3">
+
+        <label>RESUMEN </label>
+        <div>
+            <InputText width="10" @bind-Value="formularios.Resumen" />
+            <ValidationMessage For="@(()=>formularios.Resumen)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Apellido </label>
+        <div>
+            <InputDate width="10" @bind-Value="formularios.Fecha" />
+            <ValidationMessage For="@(()=>formularios.Fecha)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Supervisor ID </label>
+        <div>
+            <InputNumber width="10" @bind-Value="formularios.Supervisorid" />
+            <ValidationMessage For="@(()=>formularios.Supervisorid)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Fundacion ID </label>
+        <div>
+            <InputNumber width="10" @bind-Value="formularios.Fundacionid" />
+            <ValidationMessage For="@(()=>formularios.Fundacionid)" />
+
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        <label>Conversacion ID </label>
+        <div>
+            <InputNumber width="10" @bind-Value="formularios.Conversacionid" />
+            <ValidationMessage For="@(()=>formularios.Conversacionid)" />
+
+        </div>
+    </div>
+
+
+    <button class="btn btn-primary" type="submit">Guardar</button>
+
+    <button class="btn btn-success" onclick="ReturnAction">Regresar</button>
+
+    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" />Limpiar</button>
+
+
+
+</EditForm>
+
+
+
+@code {
+
+    private EditContext editContext = null!;
+    protected override void OnInitialized()
+    {
+        editContext = new(formularios);
+    }
+
+    [EditorRequired]
+
+    [Parameter]
+    public Formulario formularios { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+
+    public EventCallback OnSubmit { get; set; }
+
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback ReturnAction { get; set; }
+
+    public bool FormularioPosteadoConExito { get; set; } = false;
+
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        var formularioFueEditado = editContext.IsModified();
+
+        if (!formularioFueEditado)
+        {
+            return;
+        }
+
+        if (FormularioPosteadoConExito)
+        {
+            return;
+        }
+
+        var resultado = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Deseas abandonar la página y perder los cambios?",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true
+            });
+
+        var confirmado = !string.IsNullOrEmpty(resultado.Value);
+
+        if (confirmado)
+        {
+            return;
+        }
+
+        context.PreventNavigation();
+    }
+}
+
+
