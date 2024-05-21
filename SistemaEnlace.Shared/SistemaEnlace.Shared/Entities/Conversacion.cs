@@ -13,7 +13,7 @@ namespace SistemaEnlace.Shared.Entities
 {
     public class Conversacion
     {
-
+        //
         public int Id { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}",
