@@ -52,7 +52,12 @@ namespace SistemaEnlace.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Situacion { get; set; }
 
+        public int FundacionId { get; set; } = 1;
         
+        [JsonIgnore]
+        public Fundacion Fundaciones { get; set; }
+
+       
 
         [JsonIgnore]
        public ICollection<Conversacion> conversacions { get; set; }

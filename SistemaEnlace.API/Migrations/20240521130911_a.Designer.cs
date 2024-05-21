@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaEnlace.API.Data;
 
@@ -11,9 +12,11 @@ using SistemaEnlace.API.Data;
 namespace SistemaEnlace.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240521130911_a")]
+    partial class a
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,7 +130,7 @@ namespace SistemaEnlace.API.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FundacionId")
+                    b.Property<int>("Fundacionid")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
@@ -150,8 +153,6 @@ namespace SistemaEnlace.API.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("FundacionId");
 
                     b.ToTable("JovenesVulnerables");
                 });
@@ -265,22 +266,6 @@ namespace SistemaEnlace.API.Migrations
                     b.Navigation("fundaciones");
 
                     b.Navigation("supervisores");
-                });
-
-            modelBuilder.Entity("SistemaEnlace.Shared.Entities.JovenVulnerable", b =>
-                {
-                    b.HasOne("SistemaEnlace.Shared.Entities.Fundacion", "Fundaciones")
-                        .WithMany("JovenesVulnerables")
-                        .HasForeignKey("FundacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Fundaciones");
-                });
-
-            modelBuilder.Entity("SistemaEnlace.Shared.Entities.Fundacion", b =>
-                {
-                    b.Navigation("JovenesVulnerables");
                 });
 
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.JovenVulnerable", b =>

@@ -63,7 +63,10 @@ namespace SistemaEnlace.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(JovenVulnerable jovenVulnerable)
         {
-
+          if (jovenVulnerable.FundacionId==0)
+            {
+                jovenVulnerable.FundacionId=1;
+            }
             _context.Add(jovenVulnerable);
             await _context.SaveChangesAsync();
             return Ok(jovenVulnerable);

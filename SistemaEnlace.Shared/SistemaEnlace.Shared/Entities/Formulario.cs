@@ -31,7 +31,7 @@ namespace SistemaEnlace.Shared.Entities
         [JsonIgnore]
         public Fundacion fundaciones { get; set; }
         
-        public int Fundacionid { get; set; } = 1;
+        public int Fundacionid { get; set; } 
 
       
 

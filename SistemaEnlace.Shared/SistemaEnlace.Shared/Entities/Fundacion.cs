@@ -24,8 +24,9 @@ namespace SistemaEnlace.Shared.Entities
         public string Description { get; set; }
 
 
-        
 
+        [JsonIgnore]
+        public ICollection<JovenVulnerable> JovenesVulnerables { get; set; }
 
     }
 }

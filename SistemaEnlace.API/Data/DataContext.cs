@@ -21,6 +21,12 @@ namespace SistemaEnlace.API.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Conversacion>().HasIndex(c=>c.Id).IsUnique();
+            
+            modelBuilder.Entity<Fundacion>()
+                .HasMany(f => f.JovenesVulnerables)
+                .WithOne(j => j.Fundaciones)
+                .HasForeignKey(j => j.FundacionId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

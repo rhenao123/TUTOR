@@ -12,8 +12,8 @@ using SistemaEnlace.API.Data;
 namespace SistemaEnlace.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240520021615_1")]
-    partial class _1
+    [Migration("20240521133759_FundaId")]
+    partial class FundaId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,16 +36,10 @@ namespace SistemaEnlace.API.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdJoven")
+                    b.Property<int>("JovenVulnerableid")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdTutor")
-                        .HasColumnType("int");
-
-                    b.Property<int>("jovenVulnerablesid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("tutorsid")
+                    b.Property<int>("Tutorid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -53,9 +47,9 @@ namespace SistemaEnlace.API.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("jovenVulnerablesid");
+                    b.HasIndex("JovenVulnerableid");
 
-                    b.HasIndex("tutorsid");
+                    b.HasIndex("Tutorid");
 
                     b.ToTable("conversacions");
                 });
@@ -68,28 +62,28 @@ namespace SistemaEnlace.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Conversacionid")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdSupervisor")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Idconversacion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Idfundacion")
+                    b.Property<int>("Fundacionid")
                         .HasColumnType("int");
 
                     b.Property<string>("Resumen")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("supervisorsid")
+                    b.Property<int>("Supervisorid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("supervisorsid");
+                    b.HasIndex("Conversacionid");
+
+                    b.HasIndex("Fundacionid");
+
+                    b.HasIndex("Supervisorid");
 
                     b.ToTable("formularios");
                 });
@@ -136,6 +130,9 @@ namespace SistemaEnlace.API.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FundacionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -156,6 +153,8 @@ namespace SistemaEnlace.API.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("FundacionId");
 
                     b.ToTable("JovenesVulnerables");
                 });
@@ -227,35 +226,72 @@ namespace SistemaEnlace.API.Migrations
 
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.Conversacion", b =>
                 {
-                    b.HasOne("SistemaEnlace.Shared.Entities.JovenVulnerable", "jovenVulnerables")
+                    b.HasOne("SistemaEnlace.Shared.Entities.JovenVulnerable", "JovenesVulnerables")
                         .WithMany("conversacions")
-                        .HasForeignKey("jovenVulnerablesid")
+                        .HasForeignKey("JovenVulnerableid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SistemaEnlace.Shared.Entities.Tutor", "tutors")
-                        .WithMany()
-                        .HasForeignKey("tutorsid")
+                    b.HasOne("SistemaEnlace.Shared.Entities.Tutor", "Tutores")
+                        .WithMany("conversacions")
+                        .HasForeignKey("Tutorid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("jovenVulnerables");
+                    b.Navigation("JovenesVulnerables");
 
-                    b.Navigation("tutors");
+                    b.Navigation("Tutores");
                 });
 
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.Formulario", b =>
                 {
-                    b.HasOne("SistemaEnlace.Shared.Entities.Supervisor", "supervisors")
+                    b.HasOne("SistemaEnlace.Shared.Entities.Conversacion", "conversaciones")
                         .WithMany()
-                        .HasForeignKey("supervisorsid")
+                        .HasForeignKey("Conversacionid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("supervisors");
+                    b.HasOne("SistemaEnlace.Shared.Entities.Fundacion", "fundaciones")
+                        .WithMany()
+                        .HasForeignKey("Fundacionid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SistemaEnlace.Shared.Entities.Supervisor", "supervisores")
+                        .WithMany()
+                        .HasForeignKey("Supervisorid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("conversaciones");
+
+                    b.Navigation("fundaciones");
+
+                    b.Navigation("supervisores");
                 });
 
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.JovenVulnerable", b =>
+                {
+                    b.HasOne("SistemaEnlace.Shared.Entities.Fundacion", "Fundaciones")
+                        .WithMany("JovenesVulnerables")
+                        .HasForeignKey("FundacionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Fundaciones");
+                });
+
+            modelBuilder.Entity("SistemaEnlace.Shared.Entities.Fundacion", b =>
+                {
+                    b.Navigation("JovenesVulnerables");
+                });
+
+            modelBuilder.Entity("SistemaEnlace.Shared.Entities.JovenVulnerable", b =>
+                {
+                    b.Navigation("conversacions");
+                });
+
+            modelBuilder.Entity("SistemaEnlace.Shared.Entities.Tutor", b =>
                 {
                     b.Navigation("conversacions");
                 });

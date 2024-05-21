@@ -63,10 +63,7 @@ namespace SistemaEnlace.API.Controllers
         {
 
 
-            if (formularios.Fundacionid == 0)
-            {
-                formularios.Fundacionid = 1;
-            }
+          
 
             _context.Add(formularios);
             await _context.SaveChangesAsync();

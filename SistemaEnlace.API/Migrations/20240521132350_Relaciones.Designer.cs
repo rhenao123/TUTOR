@@ -12,8 +12,8 @@ using SistemaEnlace.API.Data;
 namespace SistemaEnlace.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240520061338_u")]
-    partial class u
+    [Migration("20240521132350_Relaciones")]
+    partial class Relaciones
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,6 +130,9 @@ namespace SistemaEnlace.API.Migrations
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FundacionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -150,6 +153,8 @@ namespace SistemaEnlace.API.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("FundacionId");
 
                     b.ToTable("JovenesVulnerables");
                 });
@@ -263,6 +268,22 @@ namespace SistemaEnlace.API.Migrations
                     b.Navigation("fundaciones");
 
                     b.Navigation("supervisores");
+                });
+
+            modelBuilder.Entity("SistemaEnlace.Shared.Entities.JovenVulnerable", b =>
+                {
+                    b.HasOne("SistemaEnlace.Shared.Entities.Fundacion", "Fundaciones")
+                        .WithMany("JovenesVulnerables")
+                        .HasForeignKey("FundacionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Fundaciones");
+                });
+
+            modelBuilder.Entity("SistemaEnlace.Shared.Entities.Fundacion", b =>
+                {
+                    b.Navigation("JovenesVulnerables");
                 });
 
             modelBuilder.Entity("SistemaEnlace.Shared.Entities.JovenVulnerable", b =>
