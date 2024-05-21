@@ -7,7 +7,7 @@
 
 
 
-<EditForm Model="jovenVulnerables" OnSubmit="OnSubmit">
+<EditForm Model="tutores" OnSubmit="OnSubmit">
 
 
     <DataAnnotationsValidator />
@@ -16,8 +16,8 @@
 
         <label>Cedula:  </label>
         <div>
-            <InputNumber width="10" @bind-Value="jovenVulnerables.id" />
-            <ValidationMessage For="@(()=>jovenVulnerables.id)" />
+            <InputNumber width="10" @bind-Value="tutores.id" />
+            <ValidationMessage For="@(()=>tutores.id)" />
 
         </div>
     </div>
@@ -26,8 +26,8 @@
 
         <label>Nombre </label>
         <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.Nombre" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Nombre)" />
+            <InputText width="10" @bind-Value="tutores.Nombre" />
+            <ValidationMessage For="@(()=>tutores.Nombre)" />
 
         </div>
     </div>
@@ -35,8 +35,8 @@
 
         <label>Apellido </label>
         <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.Apellidos" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Apellidos)" />
+            <InputText width="10" @bind-Value="tutores.Apellidos" />
+            <ValidationMessage For="@(()=>tutores.Apellidos)" />
 
         </div>
     </div>
@@ -45,8 +45,8 @@
 
         <label>Fecah de nacimiento </label>
         <div>
-            <InputDate width="10" @bind-Value="jovenVulnerables.FechaNacimiento" />
-            <ValidationMessage For="@(()=>jovenVulnerables.FechaNacimiento)" />
+            <InputDate width="10" @bind-Value="tutores.FechaNacimiento" />
+            <ValidationMessage For="@(()=>tutores.FechaNacimiento)" />
 
         </div>
     </div>
@@ -55,8 +55,8 @@
 
         <label>Ubicacion </label>
         <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.Ubicacion" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Ubicacion)" />
+            <InputText width="10" @bind-Value="tutores.Ubicacion" />
+            <ValidationMessage For="@(()=>tutores.Ubicacion)" />
 
         </div>
     </div>
@@ -65,8 +65,8 @@
 
         <label>Correo </label>
         <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.correo" />
-            <ValidationMessage For="@(()=>jovenVulnerables.correo)" />
+            <InputText width="10" @bind-Value="tutores.correo" />
+            <ValidationMessage For="@(()=>tutores.correo)" />
 
         </div>
     </div>
@@ -75,19 +75,18 @@
 
         <label>Situación </label>
         <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.Situacion" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Situacion)" />
+            <InputNumber width="10" @bind-Value="tutores.Experiencia" />
+            <ValidationMessage For="@(()=>tutores.Experiencia)" />
 
         </div>
     </div>
-
 
     <div class="mb-3">
 
         <label>EDAD </label>
         <div>
-            <InputNumber width="10" @bind-Value="jovenVulnerables.Edad" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Edad)" />
+            <InputNumber width="10" @bind-Value="tutores.Edad" />
+            <ValidationMessage For="@(()=>tutores.Edad)" />
 
         </div>
     </div>
@@ -111,13 +110,13 @@
     private EditContext editContext = null!;
     protected override void OnInitialized()
     {
-        editContext = new(jovenVulnerables);
+        editContext = new(tutores);
     }
 
     [EditorRequired]
 
     [Parameter]
-    public JovenVulnerable jovenVulnerables { get; set; }
+    public Tutor tutores { get; set; }
 
     [EditorRequired]
     [Parameter]

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SistemaEnlace.API.Migrations
 {
     /// <inheritdoc />
-    public partial class indettty : Migration
+    public partial class _1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,8 +28,7 @@ namespace SistemaEnlace.API.Migrations
                 name: "supervisors",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Telefono = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },

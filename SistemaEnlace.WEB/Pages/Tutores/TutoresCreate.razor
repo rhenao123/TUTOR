@@ -1,0 +1,44 @@
+﻿
+@page "/Tutores/create"
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertServices
+
+<h3>Machinery Create</h3>
+
+
+
+<TutoresForm tutores="tutores" OnSubmit="Create" ReturnAction="Return">
+
+
+
+
+
+</TutoresForm>
+
+
+
+@code {
+    private Tutor tutores = new();
+   
+    private async Task Create()
+    {
+        var responseHttp = await repository.PostAsync("/api/Tutor", tutores);
+
+        if (responseHttp.Error)
+        {
+
+            var message = await responseHttp.GetErrorMessage();
+            await sweetAlertServices.FireAsync("Error","prueba", message);
+            return;
+        }
+        navigationManager.NavigateTo("/Tutores");
+
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/Tutores");
+    }
+
+}

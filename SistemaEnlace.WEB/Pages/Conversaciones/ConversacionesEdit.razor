@@ -1,6 +1,6 @@
 ﻿﻿
 
-@page "/Jovenes/editar/{id:int}"
+@page "/Conversaciones/editar/{id:int}"
 @using System.Net
 @inject NavigationManager navigationManager
 @inject IRepository repository
@@ -8,29 +8,29 @@
 
 <h3>Editar</h3>
 
-@if (jovenVulnerable is null)
+@if (conversaciones is null)
 {
     <p>Cargando...</p>
 }
 else
 {
-    <JovenesForm jovenVulnerables="jovenVulnerable" OnSubmit="Editar" ReturnAction="Return" />
+    <ConversacionForm conversaciones="conversaciones" OnSubmit="Editar" ReturnAction="Return" />
 }
 
 @code {
     [Parameter]
     public int id { get; set; }
-    private JovenVulnerable jovenVulnerable;
+    private Conversacion conversaciones;
     
 
     protected override async Task OnParametersSetAsync()
     {
-        var responseHttp = await repository.GetAsync<JovenVulnerable>($"/api/JovenVul/{id}");
+        var responseHttp = await repository.GetAsync<Conversacion>($"/api/Conversaciones/{id}");
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
             {
-                navigationManager.NavigateTo("/Jovenes");
+                navigationManager.NavigateTo("/Conversaciones");
             }
             else
             {
@@ -40,14 +40,14 @@ else
         }
         else
         {
-            jovenVulnerable = responseHttp.Response;
+            conversaciones = responseHttp.Response;
         }
     }
 
 
     private async Task Editar()
     {
-        var responseHttp = await repository.PutAsync("/api/ovenVul", jovenVulnerable);
+        var responseHttp = await repository.PutAsync("/api/Conversaciones", conversaciones);
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessage();
@@ -68,7 +68,7 @@ else
 
     private void Return()
     {
-        navigationManager.NavigateTo("/JovenVul");
+        navigationManager.NavigateTo("/Conversaciones");
     }
 
 }

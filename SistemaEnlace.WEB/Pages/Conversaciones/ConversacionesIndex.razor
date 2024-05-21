@@ -1,4 +1,4 @@
-﻿@page "/Jovenes"
+﻿@page "/Conversaciones"
 @using SistemaEnlace.Shared.Entities;
 @using SistemaEnlace.WEB.Repositories
 @using SistemaEnlace.WEB.Shared
@@ -6,47 +6,47 @@
 @inject NavigationManager navigationManager
 @inject IRepository repository
 
-<h1>Jovenes Vulnerables</h1>
+<h1>CONVERSACIONES</h1>
 <div class="mb-3">
-   <a class="btn btn-primary" href="/Jovenes/create">Nuevo Registro</a>
+    <a class="btn btn-primary" href="/Conversaciones/create">Nuevo Registro</a>
 </div>
 
 
-<GenericList MyList="jovenVulnerables">
+<GenericList MyList="conversacions">
 
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>JOVENES</th>
+                    <th>TUTORES</th>
                     <th></th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in jovenVulnerables!)
-                 {
-                     <tr>
+                @foreach (var item in conversacions!)
+                {
+                    <tr>
                         <td>
-                        <th>NOMBRE</th>
-                            @item.id
+                        <th>ID DE CONVERSACION</th>
+                            @item.Id
                         </td>
                         <td>
-                        <th>ESPECIALIDAD</th>
-                            @item.Nombre
+                        <th>ID JOVEN</th>
+                            @item.JovenVulnerableid
                         </td>
                         <td>
-                        <th>LISTA DE MIEMBROS</th>
-                            @item.Apellidos
+                        <th>ID TUTOR</th>
+                            @item.Tutorid
                         </td>
-                           <td>
-                            <a href="/Jovenes/editar/@item.id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
+                        <td>
+                            <a href="/Conversaciones/editar/@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
                             <button @onclick=@(() => DeleteAsycn(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
-                         </td>
+                        </td>
                     </tr>
-                  }
+                }
             </tbody>
-            
+
         </table>
 
     </Body>
@@ -58,53 +58,53 @@
 
 
 @code {
-    
-    public List<JovenVulnerable> jovenVulnerables { get; set; }
+
+    public List<Conversacion> conversacions { get; set; }
 
 
     protected async override Task OnInitializedAsync()
     {
-     
+
 
         await LoadAsync();
 
-   
-    
+
+
     }
 
     private async Task LoadAsync()
     {
-        var responseHttp = await repository.GetAsync<List<JovenVulnerable>>("/api/JovenVul");
+        var responseHttp = await repository.GetAsync<List<Conversacion>>("/api/Conversaciones");
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        jovenVulnerables= responseHttp.Response;
+        conversacions = responseHttp.Response;
     }
-    private async Task DeleteAsycn(JovenVulnerable jovenVulnerables)
+    private async Task DeleteAsycn(Conversacion conversaciones)
     {
         var result = await sweetAlertService.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = $"¿Estas seguro de querer borrar el Joven con nombre: {jovenVulnerables.Nombre}?",
+                Text = $"¿Estas seguro de querer borrar la conversacion con id : {conversaciones.Id}?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
             });
         var confirm = string.IsNullOrEmpty(result.Value);
         if (confirm)
-        
+
         {
             return;
         }
 
-        var responseHttp = await repository.DeleteAsync<JovenVulnerable>($"/api/JovenVul/{jovenVulnerables.id}");
+        var responseHttp = await repository.DeleteAsync<Tutor>($"/api/Conversaciones/{conversaciones.Id}");
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                navigationManager.NavigateTo("Jovenes");
+                navigationManager.NavigateTo("/Conversaciones");
             }
             else
             {
