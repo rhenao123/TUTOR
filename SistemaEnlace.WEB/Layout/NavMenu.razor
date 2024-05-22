@@ -1,4 +1,6 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿
+
+<div class="top-row ps-3 navbar navbar-dark" style="background-color: #9F2E4D;">
     <div class="container-fluid">
         <a class="navbar-brand" href="">SistemaEnlace.WEB</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -7,53 +9,52 @@
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass nav-scrollable" @onmouseover="ToggleNavMenu" @onmouseout="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <i class="bi bi-house-door-fill"></i> Home
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Jovenes">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Joven
+                <i class="bi bi-person"></i> Joven
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Tutores">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Tutor
+                <i class="bi bi-person"></i> Tutor
             </NavLink>
         </div>
 
-
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Conversaciones">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Conversacion
+                <i class="bi bi-chat"></i> Conversacion
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Supervisores">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Supervisor
+                <i class="bi bi-people"></i> Supervisor
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Formularios">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Formulario
+                <i class="bi bi-file-earmark-text"></i> Formulario
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Fundaciones">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Fundacion
+                <i class="bi bi-building"></i> Fundacion
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="PRUEBA 2">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+                <i class="bi bi-cloud"></i> Weather
             </NavLink>
         </div>
     </nav>
