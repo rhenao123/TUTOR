@@ -12,8 +12,8 @@ using SistemaEnlace.API.Data;
 namespace SistemaEnlace.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240521190802_1")]
-    partial class _1
+    [Migration("20240521234106_a")]
+    partial class a
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

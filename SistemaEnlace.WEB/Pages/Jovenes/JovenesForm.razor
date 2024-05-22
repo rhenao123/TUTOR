@@ -4,126 +4,100 @@
 @inject SweetAlertService sweetAlertService
 @inject IRepository repository
 
-
-
-
-<EditForm Model="jovenVulnerables" OnSubmit="OnSubmit">
-
-
+<EditForm Model="jovenVulnerables" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
+   
     <div class="mb-3">
-
-        <label>Cedula:  </label>
+        <label for="cedula">Cédula: </label>
         <div>
-            <InputNumber width="10" @bind-Value="jovenVulnerables.id" />
-            <ValidationMessage For="@(()=>jovenVulnerables.id)" />
+            <InputNumber id="cedula" @bind-Value="jovenVulnerables.id" />
+            <ValidationMessage For="@(() => jovenVulnerables.id)" />
+        </div>
+    </div>
 
+ 
+    <div class="mb-3">
+        <label for="nombre">Nombre: </label>
+        <div>
+            <InputText id="nombre" @bind-Value="jovenVulnerables.Nombre" placeholder="Nombre" />
+            <ValidationMessage For="@(() => jovenVulnerables.Nombre)" />
+        </div>
+    </div>
+
+    
+    <div class="mb-3">
+        <label for="apellido">Apellido: </label>
+        <div>
+            <InputText id="apellido" @bind-Value="jovenVulnerables.Apellidos" placeholder="Apellido" />
+            <ValidationMessage For="@(() => jovenVulnerables.Apellidos)" />
+        </div>
+    </div>
+
+  
+    <div class="mb-3">
+        <label for="fechaNacimiento">Fecha de Nacimiento: </label>
+        <div>
+            <InputDate id="fechaNacimiento" @bind-Value="jovenVulnerables.FechaNacimiento" placeholder="Fecha de Nacimiento" />
+            <ValidationMessage For="@(() => jovenVulnerables.FechaNacimiento)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Nombre </label>
+        <label for="ubicacion">Ubicación: </label>
         <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.Nombre" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Nombre)" />
-
-        </div>
-    </div>
-    <div class="mb-3">
-
-        <label>Apellido </label>
-        <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.Apellidos" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Apellidos)" />
-
+            <InputText id="ubicacion" @bind-Value="jovenVulnerables.Ubicacion" placeholder="Ubicación" />
+            <ValidationMessage For="@(() => jovenVulnerables.Ubicacion)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Fecah de nacimiento </label>
+        <label for="correo">Correo: </label>
         <div>
-            <InputDate width="10" @bind-Value="jovenVulnerables.FechaNacimiento" />
-            <ValidationMessage For="@(()=>jovenVulnerables.FechaNacimiento)" />
-
+            <InputText id="correo" @bind-Value="jovenVulnerables.correo" placeholder="Correo" />
+            <ValidationMessage For="@(() => jovenVulnerables.correo)" />
         </div>
     </div>
 
+   
     <div class="mb-3">
-
-        <label>Ubicacion </label>
+        <label for="situacion">Situación: </label>
         <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.Ubicacion" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Ubicacion)" />
-
+            <InputText id="situacion" @bind-Value="jovenVulnerables.Situacion" placeholder="Situación" />
+            <ValidationMessage For="@(() => jovenVulnerables.Situacion)" />
         </div>
     </div>
 
+ 
     <div class="mb-3">
-
-        <label>Correo </label>
+        <label for="edad">Edad: </label>
         <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.correo" />
-            <ValidationMessage For="@(()=>jovenVulnerables.correo)" />
-
+            <InputNumber id="edad" @bind-Value="jovenVulnerables.Edad" placeholder="Edad" />
+            <ValidationMessage For="@(() => jovenVulnerables.Edad)" />
         </div>
     </div>
 
-    <div class="mb-3">
-
-        <label>Situación </label>
-        <div>
-            <InputText width="10" @bind-Value="jovenVulnerables.Situacion" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Situacion)" />
-
-        </div>
-    </div>
-
-
-    <div class="mb-3">
-
-        <label>EDAD </label>
-        <div>
-            <InputNumber width="10" @bind-Value="jovenVulnerables.Edad" />
-            <ValidationMessage For="@(()=>jovenVulnerables.Edad)" />
-
-        </div>
-    </div>
-
-
-
+    <!-- Botones para las acciones del formulario -->
     <button class="btn btn-primary" type="submit">Guardar</button>
-
-    <button class="btn btn-success" onclick="ReturnAction">Regresar</button>
-
-    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" />Limpiar</button>
-
-
-
+    <button class="btn btn-success" type="button" @onclick="HandleReturnAction">Regresar</button>
+    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" /> Limpiar</button>
 </EditForm>
 
-
-
 @code {
-
     private EditContext editContext = null!;
+
     protected override void OnInitialized()
     {
-        editContext = new(jovenVulnerables);
+        editContext = new EditContext(jovenVulnerables);
     }
 
     [EditorRequired]
-
     [Parameter]
     public JovenVulnerable jovenVulnerables { get; set; }
 
     [EditorRequired]
     [Parameter]
-
     public EventCallback OnSubmit { get; set; }
-
 
     [EditorRequired]
     [Parameter]
@@ -131,37 +105,19 @@
 
     public bool FormularioPosteadoConExito { get; set; } = false;
 
-    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    private async Task HandleSubmit()
     {
-        var formularioFueEditado = editContext.IsModified();
-
-        if (!formularioFueEditado)
+        if (OnSubmit.HasDelegate)
         {
-            return;
+            await OnSubmit.InvokeAsync(null);
         }
+    }
 
-        if (FormularioPosteadoConExito)
+    private async Task HandleReturnAction()
+    {
+        if (ReturnAction.HasDelegate)
         {
-            return;
+            await ReturnAction.InvokeAsync(null);
         }
-
-        var resultado = await sweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "Confirmación",
-                Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-
-        var confirmado = !string.IsNullOrEmpty(resultado.Value);
-
-        if (confirmado)
-        {
-            return;
-        }
-
-        context.PreventNavigation();
     }
 }
-
-

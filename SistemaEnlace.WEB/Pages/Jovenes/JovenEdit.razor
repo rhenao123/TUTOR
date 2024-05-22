@@ -1,6 +1,4 @@
-﻿﻿
-
-@page "/Jovenes/editar/{id:int}"
+﻿@page "/Jovenes/editar/{id:int}"
 @using System.Net
 @inject NavigationManager navigationManager
 @inject IRepository repository
@@ -14,14 +12,14 @@
 }
 else
 {
-    <JovenesForm jovenVulnerables="jovenVulnerable" OnSubmit="Editar" ReturnAction="Return" />
+    <JovenesForm jovenVulnerables="jovenVulnerable" OnSubmit="ConfirmarEdicion" ReturnAction="Return" />
 }
 
 @code {
     [Parameter]
     public int id { get; set; }
     private JovenVulnerable jovenVulnerable;
-    
+    private JovenesForm jovenesForm;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -44,31 +42,48 @@ else
         }
     }
 
+    private async Task ConfirmarEdicion()
+    {
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmar Edición",
+                Text = "¿Deseas guardar los cambios?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Sí, guardar",
+                CancelButtonText = "No, cancelar"
+            });
+
+        if (!string.IsNullOrEmpty(result.Value))
+        {
+            await Editar();
+        }
+    }
 
     private async Task Editar()
     {
-        var responseHttp = await repository.PutAsync("/api/ovenVul", jovenVulnerable);
+        var responseHttp = await repository.PutAsync("/api/JovenVul", jovenVulnerable);
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessage();
-            await sweetAlertService.FireAsync("Error", message);
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
 
-        Return();
         var toast = sweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
+                ShowConfirmButton = false,
                 Timer = 3000
             });
         await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Cambios guardados con éxito.");
+
+        Return();
     }
 
     private void Return()
     {
-        navigationManager.NavigateTo("/JovenVul");
+        navigationManager.NavigateTo("/Jovenes");
     }
-
 }

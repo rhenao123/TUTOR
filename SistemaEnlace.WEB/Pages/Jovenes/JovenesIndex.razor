@@ -1,96 +1,61 @@
 ﻿@page "/Jovenes"
-@using SistemaEnlace.Shared.Entities;
+@using SistemaEnlace.Shared.Entities
 @using SistemaEnlace.WEB.Repositories
 @using SistemaEnlace.WEB.Shared
 @inject SweetAlertService sweetAlertService
 @inject NavigationManager navigationManager
 @inject IRepository repository
 
-<h1>Jovenes Vulnerables</h1>
+<h1>Jóvenes Vulnerables</h1>
 <div class="mb-3">
-   <a class="btn btn-primary" href="/Jovenes/create">Nuevo Registro</a>
+    <a class="btn btn-primary" href="/Jovenes/create">Nuevo Registro</a>
 </div>
 
-
 <GenericList MyList="jovenVulnerables">
-
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>JOVENES</th>
-                    <th></th>
-
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>EDAD</th>
+                    <th>FECHA DE NACIMIENTO</th>
+                    <th>UBICACIÓN</th>
+                    <th>CORREO</th>
+                    <th>SITUACIÓN</th>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in jovenVulnerables!)
-                 {
-                     <tr>
+                @foreach (var item in jovenVulnerables)
+                {
+                    <tr>
+                        <td>@item.id</td>
+                        <td>@item.Nombre</td>
+                        <td>@item.Apellidos</td>
+                        <td>@item.Edad</td>
+                        <td>@item.FechaNacimiento</td>
+                        <td>@item.Ubicacion</td>
+                        <td>@item.correo</td>
+                        <td>@item.Situacion</td>
                         <td>
-                        <th>ID</th>
-                            @item.id
-                        </td>
-                        <td>
-                        <th>NOMBRE</th>
-                            @item.Nombre
-                        </td>
-                        <td>
-                        <th>APELLIDO</th>
-                            @item.Apellidos
-                        </td>
-                        <td>
-                        <th>EDAD</th>
-                            @item.Edad
-                        </td>
-                        <td>
-                        <th>FECHA DE NACIMIENTO</th>
-                            @item.FechaNacimiento
-                        </td>
-                        <td>
-                        <th>UBICACION</th>
-                            @item.Ubicacion
-                        </td>
-                        <td>
-                        <th>CORREO</th>
-                            @item.correo
-                        </td>
-                        <td>
-                        <th>SITUACION</th>
-                            @item.Situacion
-                        </td>
-
-                           <td>
                             <a href="/Jovenes/editar/@item.id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
-                            <button @onclick=@(() => DeleteAsycn(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
-                         </td>
+                            <button @onclick=@(() => DeleteAsync(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
+                        </td>
                     </tr>
-                  }
+                }
             </tbody>
-            
         </table>
-
     </Body>
-
 </GenericList>
 
-
-
-
-
 @code {
-    
     public List<JovenVulnerable> jovenVulnerables { get; set; }
 
-
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-     
-
         await LoadAsync();
-
-   
-    
     }
 
     private async Task LoadAsync()
@@ -102,50 +67,39 @@
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
-        jovenVulnerables= responseHttp.Response;
+        jovenVulnerables = responseHttp.Response;
     }
-    private async Task DeleteAsycn(JovenVulnerable jovenVulnerables)
+
+    private async Task DeleteAsync(JovenVulnerable jovenVulnerable)
     {
         var result = await sweetAlertService.FireAsync(new SweetAlertOptions
             {
-                Title = "Confirmación",
-                Text = $"¿Estas seguro de querer borrar el Joven con nombre: {jovenVulnerables.Nombre}?",
+                Title = "Confirmar Eliminación",
+                Text = $"¿Estás seguro de querer borrar el registro de {jovenVulnerable.Nombre}?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
+                ConfirmButtonText = "Sí, borrar",
+                CancelButtonText = "No, cancelar"
             });
-        var confirm = string.IsNullOrEmpty(result.Value);
-        if (confirm)
-        
+        if (!string.IsNullOrEmpty(result.Value))
         {
-            return;
-        }
-
-        var responseHttp = await repository.DeleteAsync<JovenVulnerable>($"/api/JovenVul/{jovenVulnerables.id}");
-        if (responseHttp.Error)
-        {
-            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                navigationManager.NavigateTo("Jovenes");
-            }
-            else
+            var responseHttp = await repository.DeleteAsync<JovenVulnerable>($"/api/JovenVul/{jovenVulnerable.id}");
+            if (responseHttp.Error)
             {
                 var mensajeError = await responseHttp.GetErrorMessage();
                 await sweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+                return;
             }
-            return;
+
+            await LoadAsync();
+            var toast = sweetAlertService.Mixin(new SweetAlertOptions
+                {
+                    Toast = true,
+                    Position = SweetAlertPosition.BottomEnd,
+                    ShowConfirmButton = true,
+                    Timer = 3000
+                });
+            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
         }
-
-        await LoadAsync();
-        var toast = sweetAlertService.Mixin(new SweetAlertOptions
-            {
-                Toast = true,
-                Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
-                Timer = 3000
-            });
-        await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
     }
-
-
 }
-

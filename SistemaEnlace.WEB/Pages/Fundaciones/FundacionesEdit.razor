@@ -14,7 +14,7 @@
 }
 else
 {
-    <FundacionesForm fundaciones="fundaciones" OnSubmit="Editar" ReturnAction="Return" />
+    <FundacionesForm fundaciones="fundaciones" OnSubmit="ConfirmarEdicion" ReturnAction="Return" />
 }
 
 @code {
@@ -44,7 +44,23 @@ else
             fundaciones = responseHttp.Response;
         }
     }
+    private async Task ConfirmarEdicion()
+    {
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmar Edición",
+                Text = "¿Deseas guardar los cambios?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Sí, guardar",
+                CancelButtonText = "No, cancelar"
+            });
 
+        if (!string.IsNullOrEmpty(result.Value))
+        {
+            await Editar();
+        }
+    }
 
     private async Task Editar()
     {
