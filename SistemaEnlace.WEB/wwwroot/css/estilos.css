@@ -4,22 +4,21 @@ body {
 
 /* Estilo para los encabezados de la tabla */
 .table thead th {
-    background-color: #E9627B;
+    background-color: #4a4a4a;
     color: #fff;
 }
-
-/* Estilo para los botones primarios */
 .btn-primary {
-    color: #ffffff;
-    background-color: #C70039;
-    border-color: #cc6666;
+    color: #4a4a4a;
+    background-color: #66CDAA80; /* Verde más suave */
+    border-color: #66CDAA; /* Verde más suave un poco más oscuro */
 }
 
     .btn-primary:hover {
-        color: #ffffff;
-        background-color: #b33b3b; /* Rojo más oscuro al pasar el ratón */
-        border-color: #b33b3b; /* Borde rojo más oscuro al pasar el ratón */
+        color: #4a4a4a; /* Verde más suave al pasar el ratón */
+        background-color: #66CDAA; /* Verde más suave un poco más oscuro al pasar el ratón */
+        border-color: #66CDAA; /* Borde verde más suave un poco más oscuro al pasar el ratón */
     }
+
 
 /* Estilo para los botones de advertencia */
 .btn-warning {
@@ -50,12 +49,13 @@ body {
 
 .card-header {
     background-color: #ffcccc; /* Fondo rosado claro */
-    border-color: #cc6666; /* Borde rosado */
+    border-color: #000000; /* Borde rosado */
     color: #333333; /* Texto gris oscuro */
 }
 
 .card-body {
-    background-color: #f8d7da;
+    background-color: #B0E0E6;
+    border-color: #000000
 }
 
 /* Estilo para los encabezados */
@@ -164,7 +164,7 @@ a, .btn-link {
 
 /* Estilo para el menú desplegable */
 .nav-scrollable {
-    background: linear-gradient(to right, #8C0C1B, #1942B0); /* Gradient background */
+    background: linear-gradient(to right, #1c1c78, #497e76); /* Gradient background */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); /* Shadow effect */
 
