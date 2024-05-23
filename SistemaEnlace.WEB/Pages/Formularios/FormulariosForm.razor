@@ -4,97 +4,53 @@
 @inject SweetAlertService sweetAlertService
 @inject IRepository repository
 
-
-
-
-<EditForm Model="formularios" OnSubmit="OnSubmit">
-
-
+<EditForm Model="formulario" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
-
-
     <div class="mb-3">
-
-        <label>RESUMEN </label>
+        <label for="id">ID: </label>
         <div>
-            <InputText width="10" @bind-Value="formularios.Resumen" />
-            <ValidationMessage For="@(()=>formularios.Resumen)" />
-
+            <InputNumber id="id" @bind-Value="formulario.Id" />
+            <ValidationMessage For="@(() => formulario.Id)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>FECHA </label>
+        <label for="fecha">Fecha: </label>
         <div>
-            <InputDate width="10" @bind-Value="formularios.Fecha" />
-            <ValidationMessage For="@(()=>formularios.Fecha)" />
-
+            <InputDate id="fecha" @bind-Value="formulario.Fecha" placeholder="Fecha" />
+            <ValidationMessage For="@(() => formulario.Fecha)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Supervisor ID </label>
+        <label for="resumen">Resumen: </label>
         <div>
-            <InputNumber width="10" @bind-Value="formularios.Supervisorid" />
-            <ValidationMessage For="@(()=>formularios.Supervisorid)" />
-
+            <InputText id="resumen" @bind-Value="formulario.Resumen" placeholder="Resumen" />
+            <ValidationMessage For="@(() => formulario.Resumen)" />
         </div>
     </div>
-
-    <div class="mb-3">
-
-        <label>Fundacion ID </label>
-        <div>
-            <InputNumber width="10" @bind-Value="formularios.Fundacionid" />
-            <ValidationMessage For="@(()=>formularios.Fundacionid)" />
-
-        </div>
-    </div>
-
-    <div class="mb-3">
-
-        <label>Conversacion ID </label>
-        <div>
-            <InputNumber width="10" @bind-Value="formularios.Conversacionid" />
-            <ValidationMessage For="@(()=>formularios.Conversacionid)" />
-
-        </div>
-    </div>
-
 
     <button class="btn btn-primary" type="submit">Guardar</button>
-
-    <button class="btn btn-success" onclick="ReturnAction">Regresar</button>
-
-    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" />Limpiar</button>
-
-
-
+    <button class="btn btn-success" type="button" @onclick="HandleReturnAction">Regresar</button>
+    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" /> Limpiar</button>
 </EditForm>
 
-
-
 @code {
-
     private EditContext editContext = null!;
+
     protected override void OnInitialized()
     {
-        editContext = new(formularios);
+        editContext = new EditContext(formulario);
     }
 
     [EditorRequired]
-
     [Parameter]
-    public Formulario formularios { get; set; }
+    public Formulario formulario { get; set; }
 
     [EditorRequired]
     [Parameter]
-
     public EventCallback OnSubmit { get; set; }
-
 
     [EditorRequired]
     [Parameter]
@@ -102,37 +58,19 @@
 
     public bool FormularioPosteadoConExito { get; set; } = false;
 
-    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    private async Task HandleSubmit()
     {
-        var formularioFueEditado = editContext.IsModified();
-
-        if (!formularioFueEditado)
+        if (OnSubmit.HasDelegate)
         {
-            return;
+            await OnSubmit.InvokeAsync(null);
         }
+    }
 
-        if (FormularioPosteadoConExito)
+    private async Task HandleReturnAction()
+    {
+        if (ReturnAction.HasDelegate)
         {
-            return;
+            await ReturnAction.InvokeAsync(null);
         }
-
-        var resultado = await sweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "Confirmación",
-                Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-
-        var confirmado = !string.IsNullOrEmpty(resultado.Value);
-
-        if (confirmado)
-        {
-            return;
-        }
-
-        context.PreventNavigation();
     }
 }
-
-

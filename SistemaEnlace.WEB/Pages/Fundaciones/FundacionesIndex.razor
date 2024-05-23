@@ -1,75 +1,66 @@
 ﻿@page "/Fundaciones"
-@using SistemaEnlace.Shared.Entities;
+@using SistemaEnlace.Shared.Entities
 @using SistemaEnlace.WEB.Repositories
 @using SistemaEnlace.WEB.Shared
 @inject SweetAlertService sweetAlertService
 @inject NavigationManager navigationManager
 @inject IRepository repository
 
-<h1>FUNDACIONES</h1>
-<div class="mb-3">
-    <a class="btn btn-primary" href="/Fundaciones/create">Nuevo Registro</a>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header" style="background-color: #f2f2f2;">
+            <h1 class="mb-0" style="outline: none;">Fundaciones</h1>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 text-end">
+                <a class="btn btn-primary" href="/Fundaciones/create">
+                    <i class="bi bi-plus-circle"></i> Nuevo Registro
+                </a>
+            </div>
+            <GenericList MyList="fundaciones">
+                <Body>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in fundaciones!)
+                                {
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Description</td>
+                                        <td>
+                                            <a href="/Fundaciones/editar/@item.Id" class="btn btn-warning me-2">
+                                                <i class="bi bi-pencil-square"></i> Editar
+                                            </a>
+                                            <button @onclick=@(() => ConfirmarEliminacion(item)) class="btn btn-danger">
+                                                <i class="bi bi-trash-fill"></i> Borrar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </Body>
+            </GenericList>
+        </div>
+    </div>
 </div>
 
-
-<GenericList MyList="fundaciones">
-
-    <Body>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>TUTORES</th>
-                    <th></th>
-
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in fundaciones!)
-                {
-                    <tr>
-                        <td>
-                        <th>ID</th>
-                            @item.Id
-                        </td>
-                        <td>
-                        <th>NOMBRE</th>
-                            @item.Name
-                        </td>
-                        <td>
-                        <th>DESCRIPCION</th>
-                            @item.Description
-                        </td>
-                        <td>
-                            <a href="/Fundaciones/editar/@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square" /> Editar</a>
-                            <button @onclick=@(() => DeleteAsycn(item)) class="btn btn-sm btn-danger"><i class="bi bi-trash-fill" /> Borrar</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-
-        </table>
-
-    </Body>
-
-</GenericList>
-
-
-
-
-
 @code {
-
-    public List<Fundacion> fundaciones  { get; set; }
-
+    public List<Fundacion> fundaciones { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
-
-
         await LoadAsync();
-
-
-
     }
 
     private async Task LoadAsync()
@@ -83,28 +74,33 @@
         }
         fundaciones = responseHttp.Response;
     }
-    private async Task DeleteAsycn(Fundacion fundaciones)
+
+    private async Task ConfirmarEliminacion(Fundacion fundacion)
     {
         var result = await sweetAlertService.FireAsync(new SweetAlertOptions
             {
-                Title = "Confirmación",
-                Text = $"¿Estas seguro de querer borrar la fundacion con nombre: {fundaciones.Name}?",
+                Title = "Confirmar Eliminación",
+                Text = $"¿Estás seguro de querer borrar el registro de {fundacion.Name}?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true,
+                ConfirmButtonText = "Sí, borrar",
+                CancelButtonText = "No, cancelar"
             });
-        var confirm = string.IsNullOrEmpty(result.Value);
-        if (confirm)
 
+        if (!string.IsNullOrEmpty(result.Value))
         {
-            return;
+            await DeleteAsync(fundacion);
         }
+    }
 
-        var responseHttp = await repository.DeleteAsync<Tutor>($"/api/Fundacion/{fundaciones.Id}");
+    private async Task DeleteAsync(Fundacion fundacion)
+    {
+        var responseHttp = await repository.DeleteAsync<Fundacion>($"/api/Fundacion/{fundacion.Id}");
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                navigationManager.NavigateTo("/Fundaciones");
+                navigationManager.NavigateTo("Fundaciones");
             }
             else
             {
@@ -119,12 +115,9 @@
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
-                ShowConfirmButton = true,
+                ShowConfirmButton = false,
                 Timer = 3000
             });
         await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
     }
-
-
 }
-

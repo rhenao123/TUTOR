@@ -4,77 +4,61 @@
 @inject SweetAlertService sweetAlertService
 @inject IRepository repository
 
-
-
-
-<EditForm Model="conversaciones" OnSubmit="OnSubmit">
-
-
+<EditForm Model="conversacion" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
-    
-
-
-
     <div class="mb-3">
-
-        <label>Id Tutor </label>
+        <label for="id">ID: </label>
         <div>
-            <InputNumber width="10" @bind-Value="conversaciones.Tutorid" />
-            <ValidationMessage For="@(()=>conversaciones.Tutorid)" />
-
-        </div>
-    </div>
-    <div class="mb-3">
-
-        <label>Id Joven </label>
-        <div>
-            <InputNumber width="10" @bind-Value="conversaciones.JovenVulnerableid" />
-            <ValidationMessage For="@(()=>conversaciones.JovenVulnerableid)" />
-
+            <InputNumber id="id" @bind-Value="conversacion.Id" />
+            <ValidationMessage For="@(() => conversacion.Id)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Fecha de actividad </label>
+        <label for="fecha">Fecha: </label>
         <div>
-            <InputDate width="10" @bind-Value="conversaciones.Fecha" />
-            <ValidationMessage For="@(()=>conversaciones.Fecha)" />
+            <InputDate id="fecha" @bind-Value="conversacion.Fecha" placeholder="Fecha" />
+            <ValidationMessage For="@(() => conversacion.Fecha)" />
+        </div>
+    </div>
 
+    <div class="mb-3">
+        <label for="jovenVulnerableid">ID Joven Vulnerable: </label>
+        <div>
+            <InputNumber id="jovenVulnerableid" @bind-Value="conversacion.JovenVulnerableid" placeholder="ID Joven Vulnerable" />
+            <ValidationMessage For="@(() => conversacion.JovenVulnerableid)" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="tutorid">ID Tutor: </label>
+        <div>
+            <InputNumber id="tutorid" @bind-Value="conversacion.Tutorid" placeholder="ID Tutor" />
+            <ValidationMessage For="@(() => conversacion.Tutorid)" />
         </div>
     </div>
 
     <button class="btn btn-primary" type="submit">Guardar</button>
-
-    <button class="btn btn-success" onclick="ReturnAction">Regresar</button>
-
-    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" />Limpiar</button>
-
-
-
+    <button class="btn btn-success" type="button" @onclick="HandleReturnAction">Regresar</button>
+    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" /> Limpiar</button>
 </EditForm>
 
-
-
 @code {
-
     private EditContext editContext = null!;
+
     protected override void OnInitialized()
     {
-        editContext = new(conversaciones);
+        editContext = new EditContext(conversacion);
     }
 
     [EditorRequired]
-
     [Parameter]
-    public Conversacion conversaciones { get; set; }
+    public Conversacion conversacion { get; set; }
 
     [EditorRequired]
     [Parameter]
-
     public EventCallback OnSubmit { get; set; }
-
 
     [EditorRequired]
     [Parameter]
@@ -82,37 +66,19 @@
 
     public bool FormularioPosteadoConExito { get; set; } = false;
 
-    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    private async Task HandleSubmit()
     {
-        var formularioFueEditado = editContext.IsModified();
-
-        if (!formularioFueEditado)
+        if (OnSubmit.HasDelegate)
         {
-            return;
+            await OnSubmit.InvokeAsync(null);
         }
+    }
 
-        if (FormularioPosteadoConExito)
+    private async Task HandleReturnAction()
+    {
+        if (ReturnAction.HasDelegate)
         {
-            return;
+            await ReturnAction.InvokeAsync(null);
         }
-
-        var resultado = await sweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "Confirmación",
-                Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-
-        var confirmado = !string.IsNullOrEmpty(resultado.Value);
-
-        if (confirmado)
-        {
-            return;
-        }
-
-        context.PreventNavigation();
     }
 }
-
-

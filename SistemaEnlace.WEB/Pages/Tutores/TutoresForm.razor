@@ -4,125 +4,93 @@
 @inject SweetAlertService sweetAlertService
 @inject IRepository repository
 
-
-
-
-<EditForm Model="tutores" OnSubmit="OnSubmit">
-
-
+<EditForm Model="tutor" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
     <div class="mb-3">
-
-        <label>Cedula:  </label>
+        <label for="cedula">Cédula: </label>
         <div>
-            <InputNumber width="10" @bind-Value="tutores.id" />
-            <ValidationMessage For="@(()=>tutores.id)" />
-
+            <InputNumber id="cedula" @bind-Value="tutor.id" />
+            <ValidationMessage For="@(() => tutor.id)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Nombre </label>
+        <label for="nombre">Nombre: </label>
         <div>
-            <InputText width="10" @bind-Value="tutores.Nombre" />
-            <ValidationMessage For="@(()=>tutores.Nombre)" />
-
-        </div>
-    </div>
-    <div class="mb-3">
-
-        <label>Apellido </label>
-        <div>
-            <InputText width="10" @bind-Value="tutores.Apellidos" />
-            <ValidationMessage For="@(()=>tutores.Apellidos)" />
-
+            <InputText id="nombre" @bind-Value="tutor.Nombre" placeholder="Nombre" />
+            <ValidationMessage For="@(() => tutor.Nombre)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Fecah de nacimiento </label>
+        <label for="apellido">Apellido: </label>
         <div>
-            <InputDate width="10" @bind-Value="tutores.FechaNacimiento" />
-            <ValidationMessage For="@(()=>tutores.FechaNacimiento)" />
-
+            <InputText id="apellido" @bind-Value="tutor.Apellidos" placeholder="Apellido" />
+            <ValidationMessage For="@(() => tutor.Apellidos)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Ubicacion </label>
+        <label for="fechaNacimiento">Fecha de Nacimiento: </label>
         <div>
-            <InputText width="10" @bind-Value="tutores.Ubicacion" />
-            <ValidationMessage For="@(()=>tutores.Ubicacion)" />
-
+            <InputDate id="fechaNacimiento" @bind-Value="tutor.FechaNacimiento" placeholder="Fecha de Nacimiento" />
+            <ValidationMessage For="@(() => tutor.FechaNacimiento)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Correo </label>
+        <label for="ubicacion">Ubicación: </label>
         <div>
-            <InputText width="10" @bind-Value="tutores.correo" />
-            <ValidationMessage For="@(()=>tutores.correo)" />
-
+            <InputText id="ubicacion" @bind-Value="tutor.Ubicacion" placeholder="Ubicación" />
+            <ValidationMessage For="@(() => tutor.Ubicacion)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Situación </label>
+        <label for="correo">Correo: </label>
         <div>
-            <InputNumber width="10" @bind-Value="tutores.Experiencia" />
-            <ValidationMessage For="@(()=>tutores.Experiencia)" />
-
+            <InputText id="correo" @bind-Value="tutor.correo" placeholder="Correo" />
+            <ValidationMessage For="@(() => tutor.correo)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>EDAD </label>
+        <label for="experiencia">Experiencia: </label>
         <div>
-            <InputNumber width="10" @bind-Value="tutores.Edad" />
-            <ValidationMessage For="@(()=>tutores.Edad)" />
-
+            <InputNumber id="experiencia" @bind-Value="tutor.Experiencia" placeholder="Experiencia" />
+            <ValidationMessage For="@(() => tutor.Experiencia)" />
         </div>
     </div>
 
-
+    <div class="mb-3">
+        <label for="edad">Edad: </label>
+        <div>
+            <InputNumber id="edad" @bind-Value="tutor.Edad" placeholder="Edad" />
+            <ValidationMessage For="@(() => tutor.Edad)" />
+        </div>
+    </div>
 
     <button class="btn btn-primary" type="submit">Guardar</button>
-
-    <button class="btn btn-success" onclick="ReturnAction">Regresar</button>
-
-    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" />Limpiar</button>
-
-
-
+    <button class="btn btn-success" type="button" @onclick="HandleReturnAction">Regresar</button>
+    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" /> Limpiar</button>
 </EditForm>
 
-
-
 @code {
-
     private EditContext editContext = null!;
+
     protected override void OnInitialized()
     {
-        editContext = new(tutores);
+        editContext = new EditContext(tutor);
     }
 
     [EditorRequired]
-
     [Parameter]
-    public Tutor tutores { get; set; }
+    public Tutor tutor { get; set; }
 
     [EditorRequired]
     [Parameter]
-
     public EventCallback OnSubmit { get; set; }
-
 
     [EditorRequired]
     [Parameter]
@@ -130,37 +98,19 @@
 
     public bool FormularioPosteadoConExito { get; set; } = false;
 
-    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    private async Task HandleSubmit()
     {
-        var formularioFueEditado = editContext.IsModified();
-
-        if (!formularioFueEditado)
+        if (OnSubmit.HasDelegate)
         {
-            return;
+            await OnSubmit.InvokeAsync(null);
         }
+    }
 
-        if (FormularioPosteadoConExito)
+    private async Task HandleReturnAction()
+    {
+        if (ReturnAction.HasDelegate)
         {
-            return;
+            await ReturnAction.InvokeAsync(null);
         }
-
-        var resultado = await sweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "Confirmación",
-                Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-
-        var confirmado = !string.IsNullOrEmpty(resultado.Value);
-
-        if (confirmado)
-        {
-            return;
-        }
-
-        context.PreventNavigation();
     }
 }
-
-

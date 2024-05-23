@@ -4,74 +4,53 @@
 @inject SweetAlertService sweetAlertService
 @inject IRepository repository
 
-
-
-
-<EditForm Model="supervisores" OnSubmit="OnSubmit">
-
-
+<EditForm Model="supervisor" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
     <div class="mb-3">
-
-        <label>Cedula:  </label>
+        <label for="cedula">Cédula: </label>
         <div>
-            <InputNumber width="10" @bind-Value="supervisores.id" />
-            <ValidationMessage For="@(()=>supervisores.id)" />
-
+            <InputNumber id="cedula" @bind-Value="supervisor.id" />
+            <ValidationMessage For="@(() => supervisor.id)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Nombre </label>
+        <label for="nombre">Nombre: </label>
         <div>
-            <InputText width="10" @bind-Value="supervisores.Nombre" />
-            <ValidationMessage For="@(()=>supervisores.Nombre)" />
-
+            <InputText id="nombre" @bind-Value="supervisor.Nombre" placeholder="Nombre" />
+            <ValidationMessage For="@(() => supervisor.Nombre)" />
         </div>
     </div>
+
     <div class="mb-3">
-
-        <label>Telefono </label>
+        <label for="telefono">Teléfono: </label>
         <div>
-            <InputText width="10" @bind-Value="supervisores.Telefono" />
-            <ValidationMessage For="@(()=>supervisores.Telefono)" />
-
+            <InputText id="telefono" @bind-Value="supervisor.Telefono" placeholder="Teléfono" />
+            <ValidationMessage For="@(() => supervisor.Telefono)" />
         </div>
     </div>
-
 
     <button class="btn btn-primary" type="submit">Guardar</button>
-
-    <button class="btn btn-success" onclick="ReturnAction">Regresar</button>
-
-    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" />Limpiar</button>
-
-
-
+    <button class="btn btn-success" type="button" @onclick="HandleReturnAction">Regresar</button>
+    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" /> Limpiar</button>
 </EditForm>
 
-
-
 @code {
-
     private EditContext editContext = null!;
+
     protected override void OnInitialized()
     {
-        editContext = new(supervisores);
+        editContext = new EditContext(supervisor);
     }
 
     [EditorRequired]
-
     [Parameter]
-    public Supervisor supervisores { get; set; }
+    public Supervisor supervisor { get; set; }
 
     [EditorRequired]
     [Parameter]
-
     public EventCallback OnSubmit { get; set; }
-
 
     [EditorRequired]
     [Parameter]
@@ -79,37 +58,19 @@
 
     public bool FormularioPosteadoConExito { get; set; } = false;
 
-    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    private async Task HandleSubmit()
     {
-        var formularioFueEditado = editContext.IsModified();
-
-        if (!formularioFueEditado)
+        if (OnSubmit.HasDelegate)
         {
-            return;
+            await OnSubmit.InvokeAsync(null);
         }
+    }
 
-        if (FormularioPosteadoConExito)
+    private async Task HandleReturnAction()
+    {
+        if (ReturnAction.HasDelegate)
         {
-            return;
+            await ReturnAction.InvokeAsync(null);
         }
-
-        var resultado = await sweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "Confirmación",
-                Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-
-        var confirmado = !string.IsNullOrEmpty(resultado.Value);
-
-        if (confirmado)
-        {
-            return;
-        }
-
-        context.PreventNavigation();
     }
 }
-
-

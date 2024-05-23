@@ -4,76 +4,53 @@
 @inject SweetAlertService sweetAlertService
 @inject IRepository repository
 
-
-
-
-<EditForm Model="fundaciones" OnSubmit="OnSubmit">
-
-
+<EditForm Model="fundacion" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
-
     <div class="mb-3">
-
-        <label>ID </label>
+        <label for="id">ID: </label>
         <div>
-            <InputNumber width="10" @bind-Value="fundaciones.Id" />
-            <ValidationMessage For="@(()=>fundaciones.Id)" />
-
+            <InputNumber id="id" @bind-Value="fundacion.Id" />
+            <ValidationMessage For="@(() => fundacion.Id)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>Nombre </label>
+        <label for="nombre">Nombre: </label>
         <div>
-            <InputText width="10" @bind-Value="fundaciones.Name" />
-            <ValidationMessage For="@(()=>fundaciones.Name)" />
-
+            <InputText id="nombre" @bind-Value="fundacion.Name" placeholder="Nombre" />
+            <ValidationMessage For="@(() => fundacion.Name)" />
         </div>
     </div>
 
     <div class="mb-3">
-
-        <label>DESCRIPCIPN </label>
+        <label for="descripcion">Descripción: </label>
         <div>
-            <InputText width="10" @bind-Value="fundaciones.Description" />
-            <ValidationMessage For="@(()=>fundaciones.Description)" />
-
+            <InputText id="descripcion" @bind-Value="fundacion.Description" placeholder="Descripción" />
+            <ValidationMessage For="@(() => fundacion.Description)" />
         </div>
     </div>
-
 
     <button class="btn btn-primary" type="submit">Guardar</button>
-
-    <button class="btn btn-success" onclick="ReturnAction">Regresar</button>
-
-    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" />Limpiar</button>
-
-
-
+    <button class="btn btn-success" type="button" @onclick="HandleReturnAction">Regresar</button>
+    <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" /> Limpiar</button>
 </EditForm>
 
-
-
 @code {
-
     private EditContext editContext = null!;
+
     protected override void OnInitialized()
     {
-        editContext = new(fundaciones);
+        editContext = new EditContext(fundacion);
     }
 
     [EditorRequired]
-
     [Parameter]
-    public Fundacion fundaciones { get; set; }
+    public Fundacion fundacion { get; set; }
 
     [EditorRequired]
     [Parameter]
-
     public EventCallback OnSubmit { get; set; }
-
 
     [EditorRequired]
     [Parameter]
@@ -81,37 +58,19 @@
 
     public bool FormularioPosteadoConExito { get; set; } = false;
 
-    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    private async Task HandleSubmit()
     {
-        var formularioFueEditado = editContext.IsModified();
-
-        if (!formularioFueEditado)
+        if (OnSubmit.HasDelegate)
         {
-            return;
+            await OnSubmit.InvokeAsync(null);
         }
+    }
 
-        if (FormularioPosteadoConExito)
+    private async Task HandleReturnAction()
+    {
+        if (ReturnAction.HasDelegate)
         {
-            return;
+            await ReturnAction.InvokeAsync(null);
         }
-
-        var resultado = await sweetAlertService.FireAsync(new SweetAlertOptions
-            {
-                Title = "Confirmación",
-                Text = "¿Deseas abandonar la página y perder los cambios?",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-
-        var confirmado = !string.IsNullOrEmpty(resultado.Value);
-
-        if (confirmado)
-        {
-            return;
-        }
-
-        context.PreventNavigation();
     }
 }
-
-
