@@ -70,7 +70,7 @@
 
     private async Task LoadAsync()
     {
-        var responseHttp = await repository.GetAsync<List<Conversacion>>("/api/Conversacion");
+        var responseHttp = await repository.GetAsync<List<Conversacion>>("/api/Conversaciones");
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessage();
@@ -100,12 +100,12 @@
 
     private async Task DeleteAsync(Conversacion conversacion)
     {
-        var responseHttp = await repository.DeleteAsync<Conversacion>($"/api/Conversacion/{conversacion.Id}");
+        var responseHttp = await repository.DeleteAsync<Conversacion>($"/api/Conversaciones/{conversacion.Id}");
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                navigationManager.NavigateTo("Conversaciones");
+                navigationManager.NavigateTo("/Conversaciones");
             }
             else
             {

@@ -65,7 +65,7 @@
 
     private async Task LoadAsync()
     {
-        var responseHttp = await repository.GetAsync<List<Formulario>>("/api/Formulario");
+        var responseHttp = await repository.GetAsync<List<Formulario>>("/api/Formularios");
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessage();
@@ -95,12 +95,12 @@
 
     private async Task DeleteAsync(Formulario formulario)
     {
-        var responseHttp = await repository.DeleteAsync<Formulario>($"/api/Formulario/{formulario.Id}");
+        var responseHttp = await repository.DeleteAsync<Formulario>($"/api/Formularios/{formulario.Id}");
         if (responseHttp.Error)
         {
             if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                navigationManager.NavigateTo("Formularios");
+                navigationManager.NavigateTo("/Formularios");
             }
             else
             {
