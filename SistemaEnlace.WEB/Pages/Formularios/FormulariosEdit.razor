@@ -6,6 +6,8 @@
 @inject IRepository repository
 @inject SweetAlertService sweetAlertService
 
+@attribute [Authorize(Roles = "Admin")]
+
 <h3>Editar</h3>
 
 @if (formularios is null)
