@@ -62,7 +62,7 @@ app.UseAuthentication();
 //Antes de autorizacion meter este
 app.UseAuthorization();
 
-app.MapControllers();   
+app.MapControllers();
 
 
 app.UseCors(x => x
