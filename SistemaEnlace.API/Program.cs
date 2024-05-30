@@ -60,7 +60,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 //Antes de autorizacion meter este
-app.UseAuthorization();
+
 
 app.MapControllers();
 
