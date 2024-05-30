@@ -25,7 +25,7 @@ namespace SistemaEnlace.API.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            
+            await CheckfundacionAsync();
             await CheckRolesAsync();
             await CheckUserAsync("6666", "HENAO", "Admin", "HENAITO.666@GMAIL.COM", "3127983381", "Cr 44 9996", UserType.Admin);
 
@@ -67,6 +67,24 @@ namespace SistemaEnlace.API.Data
             return user;
         }
 
+
+
+
+        
+        private async Task CheckfundacionAsync()
+
+        {
+
+            if (!_context.fundacions.Any())
+
+            {
+
+                _context.fundacions.Add(new Fundacion { Id = 1, Name = "NO ASIGNADO", Description = "BASE" });
+                await _context.SaveChangesAsync();
+
+
+            }
+        }
         
     }
 }

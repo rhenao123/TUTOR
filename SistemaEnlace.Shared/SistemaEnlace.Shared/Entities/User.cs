@@ -14,28 +14,37 @@ namespace SistemaEnlace.Shared.Entities
     public class User:IdentityUser
     {
 
-        [MaxLength(20, ErrorMessage = "No se permiten más de 20 dígitos")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Document { get; set; }
+        [Display(Name = "Documento")]
+        [MaxLength(20, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string Document { get; set; } = null!;
 
+        [Display(Name = "Nombres")]
+        [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string FirstName { get; set; } = null!;
 
-        [MaxLength(50, ErrorMessage = "No se permiten más de 50 Caracteres")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string FirstName { get; set; }
+        [Display(Name = "Apellidos")]
+        [MaxLength(50, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string LastName { get; set; } = null!;
 
+        [Display(Name = "Dirección")]
+        [MaxLength(200, ErrorMessage = "El campo {0} debe tener máximo {1} caractéres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string Address { get; set; } = null!;
 
-        [MaxLength(50, ErrorMessage = "No se permiten más de 50 Caracteres")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string LastName { get; set; }
+        [Display(Name = "Foto")]
+        public string? Photo { get; set; }
 
-
-        public string Address { get; set; }
-
+        [Display(Name = "Tipo de usuario")]
 
         public UserType UserType { get; set; }
 
+   
 
-        public string FullName => $"{FirstName}{LastName}";
+        [Display(Name = "Usuario")]
+        public string FullName => $"{FirstName} {LastName}";
 
     }
 }
