@@ -1,4 +1,4 @@
-﻿@* 
+﻿
 @page "/logout"
 @inject ILoginService loginService
 @inject NavigationManager navigationManager
@@ -11,4 +11,4 @@
         await loginService.LogoutAsync();
         navigationManager.NavigateTo("/");
     }
- *@
+}

@@ -1,4 +1,4 @@
-﻿@* @page "/Register"
+﻿@page "/Register"
 @using SistemaEnlace.Shared.Enums
 @inject IRepository repository
 @inject SweetAlertService sweetAlertService
@@ -83,10 +83,10 @@
     {
         userDTO.UserName = userDTO.Email;
         userDTO.UserType = UserType.User;
-        var responseHttp = await repository.Post<UserDTO, TokenDTO>("/api/accounts/CreateUser", userDTO);
+        var responseHttp = await repository.PostAsync<UserDTO, TokenDTO>("/api/accounts/CreateUser", userDTO);
         if (responseHttp.Error)
         {
-            var message = await responseHttp.GetErrorMessageAsync();
+            var message = await responseHttp.GetErrorMessage();
             await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
             return;
         }
@@ -96,4 +96,3 @@
     }
 }
 
- *@

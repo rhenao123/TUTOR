@@ -34,7 +34,11 @@ namespace SistemaEnlace.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Address { get; set; } = null!;
 
-        
+        [Display(Name = "Foto")]
+    
+        public string Photo { get; set; } = null!;
+
+
 
         [Display(Name = "Tipo de usuario")]
 

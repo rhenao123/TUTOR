@@ -62,7 +62,7 @@ namespace SistemaEnlace.API.Controllers
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
                 new Claim("Address", user.Address),
-                //new Claim("Photo", user.S ?? string.Empty),
+                new Claim("Photo", user.Photo?? string.Empty)
               
             };
 
