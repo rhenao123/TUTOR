@@ -27,7 +27,7 @@ namespace SistemaEnlace.API.Data
             await _context.Database.EnsureCreatedAsync();
             await CheckfundacionAsync();
             await CheckRolesAsync();
-            await CheckUserAsync("6666", "HENAO", "Admin", "HENAITO.666@GMAIL.COM", "3127983381", "Cr 44 9996", UserType.Admin);
+            await CheckUserAsync("6666", "HENAO", "Admin","henaito123@gmail.com","123", "Cr 44 9996", UserType.Admin);
 
 
 
