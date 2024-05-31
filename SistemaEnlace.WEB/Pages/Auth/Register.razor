@@ -9,6 +9,14 @@
 
 <EditForm Model="userDTO" OnValidSubmit="CreteUserAsync">
     <DataAnnotationsValidator />
+     <div class="card">
+        <div class="card-header">
+            <span>
+                <i class="oi oi-person" /> Registrar Nuevo  Usuario
+                <button class="btn btn-sm btn-primary float-end" type="submit"><i class="oi oi-check" /> Registrar</button>
+            </span>
+        </div>
+        <div class="card-body">
 
     <div class="row">
         <div class="col-5">
@@ -49,14 +57,8 @@
                 </div>
             </div>
         </div>
-          <div class="col-">
-            <div class="mb-3">
-                <label>Foto:</label>
-                <div>
-                    <InputText class="form-control" @bind-Value="@userDTO.Photo" />
-                    <ValidationMessage For="@(() => userDTO.Photo)" />
-                </div>
-            </div>
+          <div class="col-3">
+            
             <div class="mb-3">
                 <label>Contraseña:</label>
                 <div>
@@ -70,15 +72,23 @@
                     <InputText type="password" class="form-control" @bind-Value="@userDTO.PasswordConfirm" />
                     <ValidationMessage For="@(() => userDTO.PasswordConfirm)" />
                 </div>
+          
             </div>
+                    <div class="mb-3">
+                        <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
+                    </div>
+
         </div>
     </div>
     <button class="btn btn-primary" type="submit">Registrar</button>
+        </div>
+    </div>
+
 </EditForm>
 
 @code {
     private UserDTO userDTO = new();
-
+    private string? imageUrl;
     private async Task CreteUserAsync()
     {
         userDTO.UserName = userDTO.Email;
@@ -94,5 +104,16 @@
         await loginService.LoginAsync(responseHttp.Response!.Token);
         navigationManager.NavigateTo("/");
     }
+
+    private void ImageSelected(string imagenBase64)
+    {
+        userDTO.Photo = imagenBase64;
+        imageUrl = null;
+    }
+    
+    
+      
+    
+
 }
 

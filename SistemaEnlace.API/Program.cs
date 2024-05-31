@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SistemaEnlace.API.Data;
 using SistemaEnlace.API.Helpers;
 using SistemaEnlace.Shared.Entities;
@@ -49,7 +50,42 @@ builder.Services.AddScoped<IUserHelper, UserHelper>();
 
 
 //Fin de los builder metidos
-builder.Services.AddSwaggerGen(); builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=DefaultConnection"));
+builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Veterinary API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = @"JWT Authorization header using the Bearer scheme. <br /> <br />
+                      Enter 'bearer' [space] and then your token in the text input below.<br /> <br />
+                      Example: 'bearer 12345abcdef'<br /> <br />",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+      {
+        {
+          new OpenApiSecurityScheme
+          {
+            Reference = new OpenApiReference
+              {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+              },
+              Scheme = "oauth2",
+              Name = "Bearer",
+              In = ParameterLocation.Header,
+            },
+            new List<string>()
+          }
+        });
+});
+
+
+
+builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=DefaultConnection"));
 
 builder.Services.AddTransient<SeedDb>();
 var app = builder.Build();
@@ -76,7 +112,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 //Antes de autorizacion meter este
-
+//builder.Services.AddScoped<IFileStorage, FileStorage>();
 
 app.MapControllers();
 
