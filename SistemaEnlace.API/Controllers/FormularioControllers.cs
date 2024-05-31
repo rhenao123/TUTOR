@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaEnlace.API.Data;
 using SistemaEnlace.Shared.Entities;
@@ -7,6 +9,8 @@ namespace SistemaEnlace.API.Controllers
 {
     [ApiController]
     [Route("/api/Formularios")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
     public class FormularioControllers : ControllerBase
 
     {
@@ -63,7 +67,7 @@ namespace SistemaEnlace.API.Controllers
         {
 
 
-          
+
 
             _context.Add(formularios);
             await _context.SaveChangesAsync();

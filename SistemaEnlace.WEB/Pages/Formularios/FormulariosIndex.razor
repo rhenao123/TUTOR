@@ -1,10 +1,13 @@
 ﻿@page "/Formularios"
+
 @using SistemaEnlace.Shared.Entities
 @using SistemaEnlace.WEB.Repositories
 @using SistemaEnlace.WEB.Shared
 @inject SweetAlertService sweetAlertService
 @inject NavigationManager navigationManager
 @inject IRepository repository
+
+@attribute [Authorize(Roles = "Admin")]
 
 <div class="container mt-4">
     <div class="card">

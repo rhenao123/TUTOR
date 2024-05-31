@@ -1,5 +1,6 @@
 ﻿using SistemaEnlace.Shared.Entities;
 using Microsoft.AspNetCore.Identity;
+using SistemaEnlace.Shared.DTOs;
 
 namespace SistemaEnlace.API.Helpers
 {
@@ -15,5 +16,10 @@ namespace SistemaEnlace.API.Helpers
         Task AddUserToRoleAsync(User user, string roleName);
 
         Task<bool> IsUserInRoleAsync(User user, string roleName);
+
+        Task<SignInResult> LoginAsync(LoginDTO model);
+
+        Task LogoutAsync();
+
     }
 }
