@@ -84,7 +84,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-
+builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=DefaultConnection"));
 
 builder.Services.AddTransient<SeedDb>();
@@ -112,7 +112,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 //Antes de autorizacion meter este
-//builder.Services.AddScoped<IFileStorage, FileStorage>();
+
 
 app.MapControllers();
 
