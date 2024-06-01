@@ -1,21 +1,21 @@
 ﻿@page "/"
 
-<PageTitle>Jovenes :(</PageTitle>
+<PageTitle>SISTEMA DE ENLACE</PageTitle>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <p>Estas autenticado, @context.User.Identity?.Name </p>
+    </Authorized>
+    <NotAuthorized>
+        <p>No estas autorizado</p>
+    </NotAuthorized>
 
+</AuthorizeView>
 <div style="color:red">
     <h1 style="color:red">Estoy cansado de la vida!</h1>
 
 formal/fatal error;
 
-    <AuthorizeView Roles="Admin">
-        <Authorized>
-            <p>Estas autenticado, @context.User.Identity?.Name </p>
-        </Authorized>
-        <NotAuthorized>
-            <p>No estas autorizado</p>
-        </NotAuthorized>
-
-    </AuthorizeView>
+    
 
 
 
