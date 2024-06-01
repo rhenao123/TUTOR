@@ -20,12 +20,19 @@ builder.Services.AddEndpointsApiExplorer();
 //Meter un builder services
 builder.Services.AddIdentity<User, IdentityRole>(x =>
 {
+    x.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+    x.SignIn.RequireConfirmedEmail = true;
+    
     x.User.RequireUniqueEmail = true;
     x.Password.RequireDigit = false;   //Esto es lo que requiere una contraseña, falso es para crearla normal
     x.Password.RequiredUniqueChars = 0;
     x.Password.RequireUppercase = false;
     x.Password.RequireLowercase = false;
     x.Password.RequireNonAlphanumeric = false;
+    x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+    x.Lockout.MaxFailedAccessAttempts = 5;
+    x.Lockout.AllowedForNewUsers = true;
+
 
 }).AddEntityFrameworkStores<DataContext>()
 .AddDefaultTokenProviders();
@@ -84,7 +91,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IFileStorage, FileStorage>();
-
+builder.Services.AddScoped<IMailHelper, MailHelper>();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=DefaultConnection"));
 
 builder.Services.AddTransient<SeedDb>();

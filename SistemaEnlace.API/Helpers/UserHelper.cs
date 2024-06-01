@@ -21,7 +21,17 @@ namespace SistemaEnlace.API.Helpers
             _signInManager = signInManager;
         }
 
+        //Tokens correo
+        public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
 
+        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(user, token);
+        }
+        //fn Token correo
         public async Task<SignInResult> LoginAsync(LoginDTO model)
         {
             return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
@@ -57,9 +67,7 @@ namespace SistemaEnlace.API.Helpers
         public async Task<User> GetUserAsync(string email)
         {
             var user = await _context.Users
-               // .Include(u => u.City!)
-                //.ThenInclude(c => c.State!)
-                //.ThenInclude(s => s.Country!)
+             
                 .FirstOrDefaultAsync(x => x.Email == email);
             return user!;
         }
@@ -67,9 +75,7 @@ namespace SistemaEnlace.API.Helpers
         public async Task<User> GetUserAsync(Guid userId)
         {
             var user = await _context.Users
-                //.Include(u => u.City!)
-                //.ThenInclude(c => c.State!)
-                //.ThenInclude(s => s.Country!)
+                
                 .FirstOrDefaultAsync(x => x.Id == userId.ToString());
             return user!;
         }

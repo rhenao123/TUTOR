@@ -55,6 +55,12 @@ namespace SistemaEnlace.WEB.Repositories
             var responseHttp = await _httpClient.DeleteAsync(url);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp); ;
         }
+        public async Task<HttpResponseWrapper<object>> GetAsync(string url)
+        {
+            var responseHTTP = await _httpClient.GetAsync(url);
+            return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
+        }
+
 
         public async Task<HttpResponseWrapper<object>> PutAsync<T>(string url, T model)
         {
@@ -76,6 +82,7 @@ namespace SistemaEnlace.WEB.Repositories
             }
             return new HttpResponseWrapper<TActionResponse>(default, true, responseHttp);
         }
+       
 
         private async Task<T> UnserializeAnswerAsync<T>(HttpResponseMessage responseHttp)
         {
