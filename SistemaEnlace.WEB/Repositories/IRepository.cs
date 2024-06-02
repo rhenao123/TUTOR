@@ -16,6 +16,6 @@ namespace SistemaEnlace.WEB.Repositories
 
         Task<HttpResponseWrapper<TActionResponse>> PutAsync<T, TActionResponse>(string url, T model);
 
-
+        
     }
 }
