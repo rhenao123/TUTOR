@@ -1,7 +1,7 @@
 ﻿@page "/"
 
 <PageTitle>SISTEMA DE ENLACE</PageTitle>
-<AuthorizeView Roles="User">
+<AuthorizeView Roles="User,Admin">
     <Authorized>
         <p>Estas autenticado, @context.User.Identity?.Name </p>
     </Authorized>

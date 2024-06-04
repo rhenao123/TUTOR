@@ -11,7 +11,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:8000/") });
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://sistemaenlaceapi2024.azurewebsites.net") });
 
 builder.Services.AddScoped<IRepository, Repository>();
 
