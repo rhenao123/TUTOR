@@ -1,6 +1,4 @@
-﻿
-
-<div class="top-row ps-3 navbar navbar-dark" style="background-color: #7f7679;">
+﻿<div class="top-row ps-3 navbar navbar-dark" style="background-color: #7f7679;">
     <div class="container-fluid">
         <a class="navbar-brand" href="">SistemaEnlace.WEB</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -16,48 +14,59 @@
                 <i class="bi bi-house-door-fill"></i> Home
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Jovenes">
-                <i class="bi bi-person"></i> Joven
-            </NavLink>
-        </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Tutores">
-                <i class="bi bi-person"></i> Tutor
-            </NavLink>
-        </div>
+        <AuthorizeView>
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Jovenes">
+                        <i class="bi bi-person"></i> Joven
+                    </NavLink>
+                </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Conversaciones">
-                <i class="bi bi-chat"></i> Conversacion
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Supervisores">
-                <i class="bi bi-people"></i> Supervisor
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Formularios">
-                <i class="bi bi-file-earmark-text"></i> Formulario
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Fundaciones">
-                <i class="bi bi-building"></i> Fundacion
-            </NavLink>
-        </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Tutores">
+                        <i class="bi bi-person"></i> Tutor
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
 
         <AuthorizeView Roles="Admin">
             <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Conversaciones">
+                        <i class="bi bi-chat"></i> Conversacion
+                    </NavLink>
+                </div>
+
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Supervisores">
+                        <i class="bi bi-people"></i> Supervisor
+                    </NavLink>
+                </div>
+
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Formularios">
+                        <i class="bi bi-file-earmark-text"></i> Formulario
+                    </NavLink>
+                </div>
 
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="PRUEBA 2">
                         <i class="bi bi-cloud"></i> Weather
+                    </NavLink>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <!-- Contenido para usuarios no autorizados a ver las opciones de Admin -->
+            </NotAuthorized>
+        </AuthorizeView>
+
+        <AuthorizeView>
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Fundaciones">
+                        <i class="bi bi-building"></i> Fundacion
                     </NavLink>
                 </div>
             </Authorized>

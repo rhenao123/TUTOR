@@ -34,9 +34,6 @@ namespace SistemaEnlace.Shared.Entities
         public int Edad { get; set; }
 
 
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}",
-        ApplyFormatInEditMode = true)]
-        public DateTime FechaNacimiento { get; set; }
 
         [Display(Name = "Ubicacion")]
         [MaxLength(20, ErrorMessage = "No se permiten más de 20 dígitos")]
@@ -44,7 +41,7 @@ namespace SistemaEnlace.Shared.Entities
         public string Ubicacion { get; set; }
 
         [Display(Name = "Correo")]
-        [MaxLength(20, ErrorMessage = "No se permiten más de 20 dígitos")]
+        
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string correo { get; set; }
 

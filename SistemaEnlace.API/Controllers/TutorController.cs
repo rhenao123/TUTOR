@@ -63,6 +63,7 @@ namespace SistemaEnlace.API.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Post(Tutor tutor)
         {
 
@@ -78,6 +79,7 @@ namespace SistemaEnlace.API.Controllers
 
         // Método actualizar
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Put(Tutor tutor)
         {
 
@@ -92,6 +94,7 @@ namespace SistemaEnlace.API.Controllers
 
         //Médoro eliminar registro
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
 

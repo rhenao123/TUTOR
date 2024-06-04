@@ -67,6 +67,7 @@ namespace SistemaEnlace.API.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Post(Fundacion fundacion)
         {
 
@@ -82,6 +83,7 @@ namespace SistemaEnlace.API.Controllers
 
         // Método actualizar
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Put(Fundacion fundacion)
         {
 
@@ -96,6 +98,7 @@ namespace SistemaEnlace.API.Controllers
 
         //Médoro eliminar registro
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
 

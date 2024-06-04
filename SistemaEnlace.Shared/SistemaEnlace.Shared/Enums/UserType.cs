@@ -10,7 +10,10 @@ namespace SistemaEnlace.Shared.Enums
     {
 
         Admin,
-        User
+        User,
+        estudiante,
+        supervisor,
+        tutor
 
     }
 }

@@ -251,9 +251,6 @@ namespace SistemaEnlace.API.Migrations
                     b.Property<int>("Edad")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("FundacionId")
                         .HasColumnType("int");
 
@@ -273,8 +270,7 @@ namespace SistemaEnlace.API.Migrations
 
                     b.Property<string>("correo")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
@@ -319,9 +315,6 @@ namespace SistemaEnlace.API.Migrations
                     b.Property<int>("Experiencia")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -334,8 +327,7 @@ namespace SistemaEnlace.API.Migrations
 
                     b.Property<string>("correo")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
@@ -351,7 +343,9 @@ namespace SistemaEnlace.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -401,6 +395,9 @@ namespace SistemaEnlace.API.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

@@ -21,5 +21,21 @@ namespace SistemaEnlace.API.Helpers
 
         Task LogoutAsync();
 
+        //Editar usuario
+        Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword);
+
+        Task<IdentityResult> UpdateUserAsync(User user);
+
+        Task<User> GetUserAsync(Guid userId);
+        //Tokens email
+        Task<string> GenerateEmailConfirmationTokenAsync(User user);
+
+        Task<IdentityResult> ConfirmEmailAsync(User user, string token);
+
+        Task<string> GeneratePasswordResetTokenAsync(User user);
+
+        Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+
     }
 }
