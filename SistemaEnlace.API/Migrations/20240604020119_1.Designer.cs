@@ -12,8 +12,8 @@ using SistemaEnlace.API.Data;
 namespace SistemaEnlace.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240601024325_ultimo")]
-    partial class ultimo
+    [Migration("20240604020119_1")]
+    partial class _1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -254,9 +254,6 @@ namespace SistemaEnlace.API.Migrations
                     b.Property<int>("Edad")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("FundacionId")
                         .HasColumnType("int");
 
@@ -276,8 +273,7 @@ namespace SistemaEnlace.API.Migrations
 
                     b.Property<string>("correo")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
@@ -322,9 +318,6 @@ namespace SistemaEnlace.API.Migrations
                     b.Property<int>("Experiencia")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -337,8 +330,7 @@ namespace SistemaEnlace.API.Migrations
 
                     b.Property<string>("correo")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 

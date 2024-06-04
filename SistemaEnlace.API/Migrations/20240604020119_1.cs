@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SistemaEnlace.API.Migrations
 {
     /// <inheritdoc />
-    public partial class ultimo : Migration
+    public partial class _1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -90,9 +90,8 @@ namespace SistemaEnlace.API.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Apellidos = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Edad = table.Column<int>(type: "int", nullable: false),
-                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Ubicacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    correo = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Experiencia = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -214,9 +213,8 @@ namespace SistemaEnlace.API.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Apellidos = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Edad = table.Column<int>(type: "int", nullable: false),
-                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Ubicacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    correo = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Situacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FundacionId = table.Column<int>(type: "int", nullable: false)
                 },

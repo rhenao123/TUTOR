@@ -14,6 +14,8 @@ namespace SistemaEnlace.API.Controllers
     [Route("/api/JovenVul")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
+
+
     public class JovenVulnerableController : ControllerBase
 
     {
@@ -66,24 +68,35 @@ namespace SistemaEnlace.API.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Post(JovenVulnerable jovenVulnerable)
+
+
         {
           if (jovenVulnerable.FundacionId==0)
             {
                 jovenVulnerable.FundacionId=1;
             }
+
+        
+
+            // Método para calcular la edad basado en la fecha de nacimiento
+            
+
             _context.Add(jovenVulnerable);
             await _context.SaveChangesAsync();
             return Ok(jovenVulnerable);
 
 
+     
 
         }
-
+ 
 
 
         // Método actualizar
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Put(JovenVulnerable jovenVulnerable)
         {
 
@@ -98,6 +111,7 @@ namespace SistemaEnlace.API.Controllers
 
         //Médoro eliminar registro
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
 
