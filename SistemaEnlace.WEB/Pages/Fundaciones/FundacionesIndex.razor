@@ -13,9 +13,13 @@
         </div>
         <div class="card-body">
             <div class="mb-3 text-end">
+                 <AuthorizeView Roles="Admin">
+                 <Authorized>
                 <a class="btn btn-primary" href="/Fundaciones/create">
                     <i class="bi bi-plus-circle"></i> Nuevo Registro
                 </a>
+                    </Authorized>
+                </AuthorizeView>
             </div>
             <GenericList MyList="fundaciones">
                 <Body>
@@ -37,12 +41,20 @@
                                         <td>@item.Name</td>
                                         <td>@item.Description</td>
                                         <td>
+                                            <AuthorizeView Roles="Admin">
+                                              <Authorized>
                                             <a href="/Fundaciones/editar/@item.Id" class="btn btn-warning me-2">
                                                 <i class="bi bi-pencil-square"></i> Editar
                                             </a>
+                                                </Authorized>
+                                            </AuthorizeView>
+                                             <AuthorizeView Roles="Admin">
+                                              <Authorized>
                                             <button @onclick=@(() => ConfirmarEliminacion(item)) class="btn btn-danger">
                                                 <i class="bi bi-trash-fill"></i> Borrar
                                             </button>
+                                                </Authorized>
+                                            </AuthorizeView>
                                         </td>
                                     </tr>
                                 }
