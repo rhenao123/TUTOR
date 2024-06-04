@@ -1,7 +1,7 @@
 ﻿@page "/"
 
 <PageTitle>SISTEMA DE ENLACE</PageTitle>
-<AuthorizeView Roles="Admin">
+<AuthorizeView Roles="User">
     <Authorized>
         <p>Estas autenticado, @context.User.Identity?.Name </p>
     </Authorized>
@@ -11,9 +11,9 @@
 
 </AuthorizeView>
 <div style="color:red">
-    <h1 style="color:red">Estoy cansado de la vida!</h1>
+    <h1 style="color:red">Sistema de tutores de Medellín.</h1>
 
-formal/fatal error;
+
 
     
 
@@ -24,7 +24,7 @@ formal/fatal error;
 <style>
     body {
        
-        background-image: url('images/chacon.jpg');
+        background-image: url('images/index.jpg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;

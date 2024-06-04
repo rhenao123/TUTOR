@@ -10,17 +10,29 @@
 </div>
 
 <div class="@NavMenuCssClass nav-scrollable" @onmouseover="ToggleNavMenu" @onmouseout="ToggleNavMenu">
+     
     <nav class="flex-column">
+        <AuthorizeView Roles="User,Admin">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <i class="bi bi-house-door-fill"></i> Home
             </NavLink>
         </div>
+              </Authorized>
+         </AuthorizeView>
+        <AuthorizeView Roles="Admin">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Jovenes">
                 <i class="bi bi-person"></i> Joven
             </NavLink>
         </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="Admin">
+            <Authorized>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Tutores">
@@ -28,40 +40,48 @@
             </NavLink>
         </div>
 
+
+              </Authorized>
+           </AuthorizeView>
+        <AuthorizeView Roles="Admin">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Conversaciones">
                 <i class="bi bi-chat"></i> Conversacion
             </NavLink>
         </div>
-
+              </Authorized>
+          </AuthorizeView>
+        <AuthorizeView Roles="Admin">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Supervisores">
                 <i class="bi bi-people"></i> Supervisor
             </NavLink>
         </div>
-
+              </Authorized>
+             </AuthorizeView>
+        <AuthorizeView Roles="Admin">
+            <Authorized>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Formularios">
                 <i class="bi bi-file-earmark-text"></i> Formulario
             </NavLink>
         </div>
+           </Authorized>
+         </AuthorizeView>
 
+           <AuthorizeView Roles="User,Admin">
+             <Authorized>>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="Fundaciones">
                 <i class="bi bi-building"></i> Fundacion
             </NavLink>
         </div>
 
-        <AuthorizeView Roles="Admin">
-            <Authorized>
-
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="PRUEBA 2">
-                        <i class="bi bi-cloud"></i> Weather
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
+              </Authorized>
+            </AuthorizeView>
+                
 
     </nav>
 </div>
