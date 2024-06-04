@@ -2,7 +2,6 @@
 using System.Text;
 using System.Text.Json;
 
-
 namespace SistemaEnlace.WEB.Repositories
 {
     public class Repository : IRepository
