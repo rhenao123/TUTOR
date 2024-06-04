@@ -7,13 +7,13 @@
 <EditForm Model="formulario" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
-    <div class="mb-3">
+@*     <div class="mb-3">
         <label for="id">ID: </label>
         <div>
             <InputNumber id="id" @bind-Value="formulario.Id" />
             <ValidationMessage For="@(() => formulario.Id)" />
         </div>
-    </div>
+    </div> *@
 
     <div class="mb-3">
         <label for="fecha">Fecha: </label>
@@ -44,6 +44,15 @@
         <div>
             <InputNumber id="resumen" @bind-Value="formulario.Fundacionid" placeholder="Resumen" />
             <ValidationMessage For="@(() => formulario.Fundacionid)" />
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+        <label for="SUPERVISOR">SUPERSISOR Id: </label>
+        <div>
+            <InputNumber id="resumen" @bind-Value="formulario.Supervisorid" placeholder="Resumen" />
+            <ValidationMessage For="@(() => formulario.Supervisorid)" />
         </div>
     </div>
 
