@@ -63,7 +63,6 @@ namespace SistemaEnlace.WEB.Repositories
         }
 
 
-
         public async Task<HttpResponseWrapper<object>> PutAsync<T>(string url, T model)
         {
             var messageJson = JsonSerializer.Serialize(model);
