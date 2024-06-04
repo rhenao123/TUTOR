@@ -31,22 +31,6 @@
         </div>
     </div>
 
-    <div class="mb-3">
-        <label for="CONVERSACION ID">Conversacion Id: </label>
-        <div>
-            <InputNumber id="resumen" @bind-Value="formulario.Conversacionid" placeholder="Resumen" />
-            <ValidationMessage For="@(() => formulario.Conversacionid)" />
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <label for="FUNDACION ID">Fundacion Id: </label>
-        <div>
-            <InputNumber id="resumen" @bind-Value="formulario.Fundacionid" placeholder="Resumen" />
-            <ValidationMessage For="@(() => formulario.Fundacionid)" />
-        </div>
-    </div>
-
     <button class="btn btn-primary" type="submit">Guardar</button>
     <button class="btn btn-success" type="button" @onclick="HandleReturnAction">Regresar</button>
     <button class="btn btn-info" type="reset"><i class="bi bi-x-circle" /> Limpiar</button>
