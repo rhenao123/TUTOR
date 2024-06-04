@@ -7,13 +7,13 @@
 <EditForm Model="conversacion" OnSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
-@*     <div class="mb-3">
+    <div class="mb-3">
         <label for="id">ID: </label>
         <div>
             <InputNumber id="id" @bind-Value="conversacion.Id" />
             <ValidationMessage For="@(() => conversacion.Id)" />
         </div>
-    </div> *@
+    </div>
 
     <div class="mb-3">
         <label for="fecha">Fecha: </label>
